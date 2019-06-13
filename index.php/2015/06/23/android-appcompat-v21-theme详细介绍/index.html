@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>[Android]AppCompat v21 Theme详细介绍</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="imxqd">
+  <meta name="description" content="关键字：Android Lollipop AppCompat Material Theme
+本文作为读书笔记的总结性内容，起因是29日看到某社交网站谷歌的Matias Duarte分享一个链接，点进去发现是blogspot更新了，于是借此机会做一个总结，所以本文内容目前是基于19月28日信息，11月3日后根据更详细的信息进行进一步修正。
+ —-正文的分割线—– 本文描述基于Android 5.0 Lollipop的主题以及围绕新Material Design设计规范在交互与界面上的实现问题，并且是基于Support v7 AppCompat v21类库，其最主要的目的是将新特性与交互方式兼容到4.x版本。本文的参考主要来源于：
+Android 开发者网站 Android Developer
+Android 开发者博客 Android Developer blogspot
+引用原文与细节将在引用位置提供链接或在结尾进行详细说明。
+首先在官方 Maintaining Compatibility 的描述为使用Support v7 r21类库可以实现一些Material design style。其主要包含：
+  1、提供一个类似于5.0的Material design风格的界面。通过Theme.AppCompat主题实现。  2、调色板应用，Color Palette。体现在主题是可以根据给定的色彩统一渲染控件，达到界面显示效果统一。  3、提供RecyclerView，由于其内部实现了LayoutManager，所以可以实现更多变的布局与动画。  4、提供CardView，主要提供类似于Android 5.0的Z轴阴影效果，也表明卡片元素在新的设计规范中的重要性。  5、Palette，在代码中的效果就是通过Palette工具可是提取主题色用于界面动态渲染(这属于界面Material动画的关键，其后进行详细说明)。  Widget渲染
+界面控件渲染截止到14年10月29日支持EditText、Spinner、CheckBox、RadioButton、SwitchCompat、CheckedTextView，通过实际测试可知依旧有许多控件未完全兼容，甚至包括Dialog依旧使用系统默认风格。同时Google Design网站关于设计的细节依旧没有明确的说明，其自家应用也是每个都一个样，文档也一直处于预览版状态，希望伴随着11月3日Android 5.0 的发布，相关文档与设计规范能够跟进。
+对Android 5.0新特性的支持
+对于Android 5.0非常令人兴奋的功能，也没有进行完整的兼容，如Touch feedback，scene transitions animation。控件方面，Floating Action Button也没有提供。根据开发者关系小组博客上的反馈信息，这些已经列上了日程，希望在Android 5.0正式发布后会进行支持。
+接下来从代码角度说明对Material主题样式的兼容。首先和兼容Actionbar一样，依赖AppCompat v21项目并使所有Activity继承ActionBarActivity，使用Theme.AppCompat.xx一系列主题，即可在视觉上达到与Android 5.0相似的效果。
+  在 《AppCompat v21 – Material Design for Pre-Lollipop Devices!">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="[Android]AppCompat v21 Theme详细介绍">
+    <meta name="twitter:description" content="关键字：Android Lollipop AppCompat Material Theme
+本文作为读书笔记的总结性内容，起因是29日看到某社交网站谷歌的Matias Duarte分享一个链接，点进去发现是blogspot更新了，于是借此机会做一个总结，所以本文内容目前是基于19月28日信息，11月3日后根据更详细的信息进行进一步修正。
+ —-正文的分割线—– 本文描述基于Android 5.0 Lollipop的主题以及围绕新Material Design设计规范在交互与界面上的实现问题，并且是基于Support v7 AppCompat v21类库，其最主要的目的是将新特性与交互方式兼容到4.x版本。本文的参考主要来源于：
+Android 开发者网站 Android Developer
+Android 开发者博客 Android Developer blogspot
+引用原文与细节将在引用位置提供链接或在结尾进行详细说明。
+首先在官方 Maintaining Compatibility 的描述为使用Support v7 r21类库可以实现一些Material design style。其主要包含：
+  1、提供一个类似于5.0的Material design风格的界面。通过Theme.AppCompat主题实现。  2、调色板应用，Color Palette。体现在主题是可以根据给定的色彩统一渲染控件，达到界面显示效果统一。  3、提供RecyclerView，由于其内部实现了LayoutManager，所以可以实现更多变的布局与动画。  4、提供CardView，主要提供类似于Android 5.0的Z轴阴影效果，也表明卡片元素在新的设计规范中的重要性。  5、Palette，在代码中的效果就是通过Palette工具可是提取主题色用于界面动态渲染(这属于界面Material动画的关键，其后进行详细说明)。  Widget渲染
+界面控件渲染截止到14年10月29日支持EditText、Spinner、CheckBox、RadioButton、SwitchCompat、CheckedTextView，通过实际测试可知依旧有许多控件未完全兼容，甚至包括Dialog依旧使用系统默认风格。同时Google Design网站关于设计的细节依旧没有明确的说明，其自家应用也是每个都一个样，文档也一直处于预览版状态，希望伴随着11月3日Android 5.0 的发布，相关文档与设计规范能够跟进。
+对Android 5.0新特性的支持
+对于Android 5.0非常令人兴奋的功能，也没有进行完整的兼容，如Touch feedback，scene transitions animation。控件方面，Floating Action Button也没有提供。根据开发者关系小组博客上的反馈信息，这些已经列上了日程，希望在Android 5.0正式发布后会进行支持。
+接下来从代码角度说明对Material主题样式的兼容。首先和兼容Actionbar一样，依赖AppCompat v21项目并使所有Activity继承ActionBarActivity，使用Theme.AppCompat.xx一系列主题，即可在视觉上达到与Android 5.0相似的效果。
+  在 《AppCompat v21 – Material Design for Pre-Lollipop Devices!">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="[Android]AppCompat v21 Theme详细介绍">
+  <meta property="og:description" content="关键字：Android Lollipop AppCompat Material Theme
+本文作为读书笔记的总结性内容，起因是29日看到某社交网站谷歌的Matias Duarte分享一个链接，点进去发现是blogspot更新了，于是借此机会做一个总结，所以本文内容目前是基于19月28日信息，11月3日后根据更详细的信息进行进一步修正。
+ —-正文的分割线—– 本文描述基于Android 5.0 Lollipop的主题以及围绕新Material Design设计规范在交互与界面上的实现问题，并且是基于Support v7 AppCompat v21类库，其最主要的目的是将新特性与交互方式兼容到4.x版本。本文的参考主要来源于：
+Android 开发者网站 Android Developer
+Android 开发者博客 Android Developer blogspot
+引用原文与细节将在引用位置提供链接或在结尾进行详细说明。
+首先在官方 Maintaining Compatibility 的描述为使用Support v7 r21类库可以实现一些Material design style。其主要包含：
+  1、提供一个类似于5.0的Material design风格的界面。通过Theme.AppCompat主题实现。  2、调色板应用，Color Palette。体现在主题是可以根据给定的色彩统一渲染控件，达到界面显示效果统一。  3、提供RecyclerView，由于其内部实现了LayoutManager，所以可以实现更多变的布局与动画。  4、提供CardView，主要提供类似于Android 5.0的Z轴阴影效果，也表明卡片元素在新的设计规范中的重要性。  5、Palette，在代码中的效果就是通过Palette工具可是提取主题色用于界面动态渲染(这属于界面Material动画的关键，其后进行详细说明)。  Widget渲染
+界面控件渲染截止到14年10月29日支持EditText、Spinner、CheckBox、RadioButton、SwitchCompat、CheckedTextView，通过实际测试可知依旧有许多控件未完全兼容，甚至包括Dialog依旧使用系统默认风格。同时Google Design网站关于设计的细节依旧没有明确的说明，其自家应用也是每个都一个样，文档也一直处于预览版状态，希望伴随着11月3日Android 5.0 的发布，相关文档与设计规范能够跟进。
+对Android 5.0新特性的支持
+对于Android 5.0非常令人兴奋的功能，也没有进行完整的兼容，如Touch feedback，scene transitions animation。控件方面，Floating Action Button也没有提供。根据开发者关系小组博客上的反馈信息，这些已经列上了日程，希望在Android 5.0正式发布后会进行支持。
+接下来从代码角度说明对Material主题样式的兼容。首先和兼容Actionbar一样，依赖AppCompat v21项目并使所有Activity继承ActionBarActivity，使用Theme.AppCompat.xx一系列主题，即可在视觉上达到与Android 5.0相似的效果。
+  在 《AppCompat v21 – Material Design for Pre-Lollipop Devices!">
+  <meta property="og:url" content="https://imxqd.xyz/index.php/2015/06/23/android-appcompat-v21-theme%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="https://imxqd.xyz/index.php/2015/06/23/android-appcompat-v21-theme%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="imxqd.xyz">
+<meta name="msapplication-tooltip" content="imxqd.xyz">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="https://imxqd.xyz/"><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="https://imxqd.xyz/">imxqd.xyz</a></h2>
+  
+  <p class="subtitle"></p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">[Android]AppCompat v21 Theme详细介绍</h1>
+      <p class="post-meta">@imxqd · Jun 23, 2015 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>关键字：Android Lollipop AppCompat Material Theme</p>
+
+<p>本文作为读书笔记的总结性内容，起因是29日看到某社交网站谷歌的Matias Duarte分享一个链接，点进去发现是blogspot更新了，于是借此机会做一个总结，所以本文内容目前是基于19月28日信息，11月3日后根据更详细的信息进行进一步修正。</p>
+
+<p><center>
+  —-正文的分割线—–
+</center>本文描述基于Android 5.0 Lollipop的主题以及围绕新Material Design设计规范在交互与界面上的实现问题，并且是基于Support v7 AppCompat v21类库，其最主要的目的是将新特性与交互方式兼容到4.x版本。本文的参考主要来源于：</p>
+
+<p>Android 开发者网站 <a href="http://developer.android.com/index.html" target="_blank" rel="nofollow,noindex noopener noreferrer">Android Developer</a></p>
+
+<p>Android 开发者博客 <a href="http://android-developers.blogspot.com/" target="_blank" rel="nofollow,noindex noopener noreferrer">Android Developer blogspot</a></p>
+
+<p>引用原文与细节将在引用位置提供链接或在结尾进行详细说明。</p>
+
+<p>首先在官方 <a href="http://developer.android.com/training/material/compatibility.html" target="_blank" rel="nofollow,noindex noopener noreferrer">Maintaining Compatibility</a> 的描述为使用Support v7 r21类库可以实现一些Material design style。其主要包含：</p>
+
+<div>
+  <p>
+    1、提供一个类似于5.0的Material design风格的界面。通过Theme.AppCompat主题实现。
+  </p>
+  
+  <p>
+    2、调色板应用，Color Palette。体现在主题是可以根据给定的色彩统一渲染控件，达到界面显示效果统一。
+  </p>
+  
+  <p>
+    3、提供RecyclerView，由于其内部实现了LayoutManager，所以可以实现更多变的布局与动画。
+  </p>
+  
+  <p>
+    4、提供CardView，主要提供类似于Android 5.0的Z轴阴影效果，也表明卡片元素在新的设计规范中的重要性。
+  </p>
+  
+  <p>
+    5、Palette，在代码中的效果就是通过Palette工具可是提取主题色用于界面动态渲染(这属于界面Material动画的关键，其后进行详细说明)。
+  </p>
+</div>
+
+<p>Widget渲染</p>
+
+<p>界面控件渲染截止到14年10月29日支持EditText、Spinner、CheckBox、RadioButton、SwitchCompat、CheckedTextView，通过实际测试可知依旧有许多控件未完全兼容，甚至包括Dialog依旧使用系统默认风格。同时Google Design网站关于设计的细节依旧没有明确的说明，其自家应用也是每个都一个样，文档也一直处于预览版状态，希望伴随着11月3日Android 5.0 的发布，相关文档与设计规范能够跟进。</p>
+
+<p>对Android 5.0新特性的支持</p>
+
+<p>对于Android 5.0非常令人兴奋的功能，也没有进行完整的兼容，如Touch feedback，scene transitions animation。控件方面，Floating Action Button也没有提供。根据开发者关系小组博客上的反馈信息，这些已经列上了日程，希望在Android 5.0正式发布后会进行支持。</p>
+
+<p>接下来从代码角度说明对Material主题样式的兼容。首先和兼容Actionbar一样，依赖AppCompat v21项目并使所有Activity继承ActionBarActivity，使用Theme.AppCompat.xx一系列主题，即可在视觉上达到与Android 5.0相似的效果。</p>
+
+<div>
+  <p>
+    在 <a href="http://android-developers.blogspot.com/2014/10/appcompat-v21-material-design-for-pre.html" target="_blank" rel="nofollow,noindex noopener noreferrer">《AppCompat v21 – Material Design for Pre-Lollipop Devices!》</a> 中对此有比较详细的描述，关于使用中的问题可以前往Android 开发者关系小组成员的博客进行咨询。
+  </p>
+  
+  <p>
+    文章 <a href="http://android-developers.blogspot.com/2014/10/implementing-material-design-in-your.html" target="_blank" rel="nofollow,noindex noopener noreferrer">《Implementing material design in your Android app》</a> 则对主题的定制，和基于Material Design的界面设计和动画效果进行了讲解。
+  </p>
+  
+  <p>
+    而昨天发布的 <a href="http://android-developers.blogspot.com/2014/10/material-design-on-android-checklist.html" target="_blank" rel="nofollow,noindex noopener noreferrer">《Material Design on Android Checklist》</a> 则使用实例的方式讲解了Google Design中的一些要点规范以及如何实现。
+  </p>
+</div>
+
+<p>对于Android 5.0非常重要的ActionBar在新规范中使用了support v7 Toolbar进行替代。其目的是将ActionBar的布局位置转移到开发者自己定制的Layout中，可以达到在Activity中将ActionBar作为一个部分进行控制，在界面上实现与ActionBar联动的交互操作和整个Activity范围的动画效果。</p>
+
+<p>此时的ActionBar的实现方式为 layout.xml：</p>
+
+<div>
+  <div>
+    layout/layout.xml</p> 
+    
+    <div>
+      <p>
+        XHTML
+      </p>
+    </div>
+  </div>
+</div>
+
+<p>通过可以使用theme单独对其进行定制，同样在全局theme中可使用actionBarStyle属性。values/theme.xml</p>
+
+<div>
+  <div>
+    values/theme.xml</p> 
+    
+    <div>
+      <p>
+        XHTML
+      </p>
+    </div>
+  </div>
+  
+
+<p><pre class="prettyprint undefined"></pre>
+</div></p>
+
+<p>MainActivity.java</p>
+
+<div>
+  <div>
+    MainActivity</p> 
+    
+    <div>
+      <p>
+        Java
+      </p>
+    </div>
+  </div>
+  
+
+<p><pre class="prettyprint java"><span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> onCreate(Bundle savedInstanceState){
+  <span class="keyword">super</span>.onCreate(savedInstanceState);
+  setContentView(R.layout.main);
+  ToolBar toolbar = (Toolbar)findViewById(R.id.toolbar);
+  setSupportActionBar(toolbar);
+}
+</pre>
+</div></p>
+
+<p>代码中在setContentView之后使用setSupportActionBar将Toolbar设置为ActionBar，之后即可像普通的ActionBar那样使用，当然获得ActionBar依旧使用getSupportActionBar的方式。API同样遵循ActionBar的规范。根据官方的说明实现类似于平板和网页版的multiple toolnars，也就轻而易举了。当然Toolbar比较合适的用法是单独的layout文件，并通过inlcude标签引入到具体界面上，当然Toolbar也可以直接使用。</p>
+
+<p>关于此时ToolBar的定制，可以使用之前定制ActionBar的方法，如果直接写在ToolBar便签中则需要support库的namespace，即重新定义自动引用auto-resource，如前缀为app，则使用app:theme=”@style/ThemeOverlay.AppCompat.Dark.ActionBar”同样popupMenu使用ThemeOverlay.AppCompat.Light。直接使用android命名空间是无效的。同样在主Theme样式文件中自定义继承的主题也需要AppCompat类型，而不是系统默认的主题类型。同时需要注意的是AppCompat同样依赖于Support v4，并且要保持版本为最新。</p>
+
+<p>关于主题调色板应用</p>
+
+<p>在继承Theme.AppCompat.xx等一些列主题后对全局控件样式，即对色彩的修改也集中于此。之前的主题如Holo大部分使用9-path类型填充，但是将反馈效果放在图片中实现，而现在的色彩可以根据Theme的配置自行进行绘制，这样就保持了界面样式的统一性，同时对自定义样式的总体搭配减少了很多麻烦。</p>
+
+<p>在继承Theme.AppCompat主题之后最为醒目的是新样式的ActionBar，目前谷歌提倡大胆用色，色彩要鲜明等。关于选色可参考Google Design文档中色彩的章节。</p>
+
+<div>
+  <p>
+    在主题设置中有以下几个属性需要关注(注意前缀)：
+  </p>
+  
+  <p>
+    1、name=”colorPrimary”
+  </p>
+  
+  <p>
+    2、name=”colorPrimaryDark”
+  </p>
+  
+  <p>
+    3、name=”android:textColorPrimary”
+  </p>
+  
+  <p>
+    4、name=”colorAccent”
+  </p>
+  
+  <p>
+    5、name=”colorControlNormal
+  </p>
+  
+  <p>
+    6、name=”colorControlActivated”
+  </p>
+  
+  <p>
+    7、name=”colorControlHighlight”
+  </p>
+  
+  <p>
+    8、name=”colorSwitchThumbNormal”
+  </p>
+  
+  <p>
+    9、name=”android:windowBackground”
+  </p>
+  
+  <p>
+    10、name=”android:navigationBarColor” API V21
+  </p>
+</div>
+
+<p><img class="alignCenter" src="https://img1.tuicool.com/6FrAryy.png" alt="" /></p>
+
+<p>如上图：</p>
+
+<p>colorPrimary：可以理解为你的APP的主题色或者主色调，默认情况下体现为ActionBar的背景色。</p>
+
+<p>colorPrimaryDark：为系统状态栏背景色，这个颜色比primary要深一些，则个方法在4.4.2以及一下版本没有意义，但是状态栏也就是status bar的颜色在4.4可以通过类似于hack的方式在代码中实现，当然也包括colorNavigationBarColor的颜色。同样的colorPrimary可以在toolbar中通过设置背景色来实现。</p>
+
+<p>textColorPrimary：实际上为Actionbar中的文本颜色。</p>
+
+<p>colorAccent：为控件的选中颜色，即checked或selected状态的颜色。</p>
+
+<p>colorControlNormal：为控件预设的颜色，相当与之前定义xml Drawable中Selector的Normal状态的颜色。</p>
+
+<p>colorControlActivated：即激活状态，按照源代码仅有即几行解释应该是属于accent的一部分如checked状态(需要实际测试一下)。</p>
+
+<p>colorControlHighlight：为选择高亮，如ripples，列表的selector。</p>
+
+<p>colorSwitchThumbNormal：是指switch控件的色彩了。</p>
+
+<p>windowBackground：这是指窗口容器的背景色，也就是layout文件在没有额外设置颜色的时候默认的颜色，个人觉得这个颜色非常重要，他影响到你几乎每个界面。</p>
+
+<p>android:navigationBarColor：为底部虚拟按键。此属性需要API v21。</p>
+
+<p>控件的调色属性，我目前仅仅使用了CheckBox类控件，感觉和主题配合起来效果非常好，其他几个属性经过测试之后再进行完善。更多属性可参考appcompat/res/values/attrs.xml文件。</p>
+
+<div>
+  <p>
+    对于高级的调色板应用，使用support v4 graphics类库提供的Palette工具。android.support.v7.graphics.Palette。其可以根据给定的图片按抽取颜色，抽取的颜色分为一下几类。
+  </p>
+  
+  <p>
+    Vibrant：         充满活力
+  </p>
+  
+  <p>
+    Vibrant dark： 充满活力的暗色
+  </p>
+  
+  <p>
+    Vibrant light： 充满活力的亮色
+  </p>
+  
+  <p>
+    Muted：          柔和
+  </p>
+  
+  <p>
+    Muted dark：  柔和的暗色
+  </p>
+  
+  <p>
+    Muted light：  柔和的亮色
+  </p>
+  
+  <p>
+    按照官方的例子，根据图片获得Palette.Swatch对象，其提供给控件渲染颜色的方法，达到界面根据图片进行适应，但是在实际使用环境中，其提供的颜色究竟能达到什么效果，这个真的不好说。
+  </p>
+</div>
+
+<p>关于动画</p>
+
+<p>非常遗憾，谷歌宣传的各种看似非常华丽的动画在低于API v21上无法实现，至少在目前的support是无法实现。如Activity的转场动画，如各类进入和退出的explode,slide,fade动画，布局转换图像转场等。</p>
+
+<p>而SharedElements类动画使用过度元素的思想，利用兼容低版本的ActivityOptions工具虽然编译上没有问题，但是经过在4.x版本(具体版本忘记了)测试发现并没有出现期待的效果，同样Multiple Shared Elements一样。兼容库在低版本上是否真的支持，还要进行进一步测试和仔细看官方文档才能确定。</p>
+
+<p>但是对最令人印象深刻的触摸反馈功能没有支持倒是令人非常失望，尤其是Ripple相关，虽然一些第三方类库也可以实现这些效果，但是使用起来较为复杂，有些还破坏已有布局，感觉得不偿失。</p>
+
+<p>关于谷歌的设计，关注的都知道，可以遵循，但是不能完全去遵循(笑)。</p>
+
+<p>原文地址：<a href="http://suwish.com/html/android-appcompat-v21-theme.html">http://suwish.com/html/android-appcompat-v21-theme.html</a></p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        This post was published <strong>1451</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 imxqd.xyz</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

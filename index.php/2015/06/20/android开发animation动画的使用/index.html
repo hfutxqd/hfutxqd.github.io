@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>[Android]Animation动画的使用</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="imxqd">
+  <meta name="description" content="View Animation（Tween Animation）   View Animation（Tween Animation）：补间动画，给出两个关键帧，通过一些算法将给定属性值在给定的时间内在两个关键帧间渐变。
+View animation只能应用于View对象，而且只支持一部分属性，如支持缩放旋转而不支持背景颜色的改变。
+而且对于View animation，它只是改变了View对象绘制的位置，而没有改变View对象本身，比如，你有一个Button，坐标 （100,100），Width:200,Height:50，而你有一个动画使其变为Width：100，Height：100，你会发现动画过程中触 发按钮点击的区域仍是(100,100)-(300,150)。
+View Animation就是一系列View形状的变换，如大小的缩放，透明度的改变，位置的改变，动画的定义既可以用代码定义也可以用XML定义，当然，建议用XML定义。
+可以给一个View同时设置多个动画，比如从透明至不透明的淡入效果，与从小到大的放大效果，这些动画可以同时进行，也可以在一个完成之后开始另一个。
+用XML定义的动画放在/res/anim/文件夹内，XML文件的根元素可以 为,,,,interpolator 元素或(表示以上几个动画的集合，set可以嵌套)。默认情况下，所有动画是同时进行的，可以通过startOffset属性设置 各个动画的开始偏移（开始时间）来达到动画顺序播放的效果。
+可以通过设置interpolator属性改变动画渐变的方式，如AccelerateInterpolator，开始时慢，然后逐渐加快。默认为AccelerateDecelerateInterpolator。
+定义好动画的XML文件后，可以通过类似下面的代码对指定View应用动画。
+ImageView spaceshipImage = (ImageView)findViewById(R.id.spaceshipImage);&amp;lt;br /&amp;gt; Animation hyperspaceJumpAnimation=AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);&amp;lt;br /&amp;gt; spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+ Drawable Animation（Frame Animation）   Drawable Animation（Frame Animation）：帧动画，就像GIF图片，通过一系列Drawable依次显示来模拟动画的效果。在XML中的定义方式如下：
+``
+必须以为根元素，以表示要轮换显示的图片，duration属性表示各项显示的时间。XML文件要放在/res/drawable/目录下。示例：
+protected void onCreate(Bundle savedInstanceState) {&amp;lt;br /&amp;gt; // TODO Auto-generated method stub&amp;lt;br /&amp;gt; super.onCreate(savedInstanceState);&amp;lt;br /&amp;gt; setContentView(R.layout.main);&amp;lt;br /&amp;gt; imageView = (ImageView) findViewById(R.id.imageView1);&amp;lt;br /&amp;gt; imageView.setBackgroundResource(R.drawable.drawable_anim);&amp;lt;br /&amp;gt; anim = (AnimationDrawable) imageView.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="[Android]Animation动画的使用">
+    <meta name="twitter:description" content="View Animation（Tween Animation）   View Animation（Tween Animation）：补间动画，给出两个关键帧，通过一些算法将给定属性值在给定的时间内在两个关键帧间渐变。
+View animation只能应用于View对象，而且只支持一部分属性，如支持缩放旋转而不支持背景颜色的改变。
+而且对于View animation，它只是改变了View对象绘制的位置，而没有改变View对象本身，比如，你有一个Button，坐标 （100,100），Width:200,Height:50，而你有一个动画使其变为Width：100，Height：100，你会发现动画过程中触 发按钮点击的区域仍是(100,100)-(300,150)。
+View Animation就是一系列View形状的变换，如大小的缩放，透明度的改变，位置的改变，动画的定义既可以用代码定义也可以用XML定义，当然，建议用XML定义。
+可以给一个View同时设置多个动画，比如从透明至不透明的淡入效果，与从小到大的放大效果，这些动画可以同时进行，也可以在一个完成之后开始另一个。
+用XML定义的动画放在/res/anim/文件夹内，XML文件的根元素可以 为,,,,interpolator 元素或(表示以上几个动画的集合，set可以嵌套)。默认情况下，所有动画是同时进行的，可以通过startOffset属性设置 各个动画的开始偏移（开始时间）来达到动画顺序播放的效果。
+可以通过设置interpolator属性改变动画渐变的方式，如AccelerateInterpolator，开始时慢，然后逐渐加快。默认为AccelerateDecelerateInterpolator。
+定义好动画的XML文件后，可以通过类似下面的代码对指定View应用动画。
+ImageView spaceshipImage = (ImageView)findViewById(R.id.spaceshipImage);&amp;lt;br /&amp;gt; Animation hyperspaceJumpAnimation=AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);&amp;lt;br /&amp;gt; spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+ Drawable Animation（Frame Animation）   Drawable Animation（Frame Animation）：帧动画，就像GIF图片，通过一系列Drawable依次显示来模拟动画的效果。在XML中的定义方式如下：
+``
+必须以为根元素，以表示要轮换显示的图片，duration属性表示各项显示的时间。XML文件要放在/res/drawable/目录下。示例：
+protected void onCreate(Bundle savedInstanceState) {&amp;lt;br /&amp;gt; // TODO Auto-generated method stub&amp;lt;br /&amp;gt; super.onCreate(savedInstanceState);&amp;lt;br /&amp;gt; setContentView(R.layout.main);&amp;lt;br /&amp;gt; imageView = (ImageView) findViewById(R.id.imageView1);&amp;lt;br /&amp;gt; imageView.setBackgroundResource(R.drawable.drawable_anim);&amp;lt;br /&amp;gt; anim = (AnimationDrawable) imageView.">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="[Android]Animation动画的使用">
+  <meta property="og:description" content="View Animation（Tween Animation）   View Animation（Tween Animation）：补间动画，给出两个关键帧，通过一些算法将给定属性值在给定的时间内在两个关键帧间渐变。
+View animation只能应用于View对象，而且只支持一部分属性，如支持缩放旋转而不支持背景颜色的改变。
+而且对于View animation，它只是改变了View对象绘制的位置，而没有改变View对象本身，比如，你有一个Button，坐标 （100,100），Width:200,Height:50，而你有一个动画使其变为Width：100，Height：100，你会发现动画过程中触 发按钮点击的区域仍是(100,100)-(300,150)。
+View Animation就是一系列View形状的变换，如大小的缩放，透明度的改变，位置的改变，动画的定义既可以用代码定义也可以用XML定义，当然，建议用XML定义。
+可以给一个View同时设置多个动画，比如从透明至不透明的淡入效果，与从小到大的放大效果，这些动画可以同时进行，也可以在一个完成之后开始另一个。
+用XML定义的动画放在/res/anim/文件夹内，XML文件的根元素可以 为,,,,interpolator 元素或(表示以上几个动画的集合，set可以嵌套)。默认情况下，所有动画是同时进行的，可以通过startOffset属性设置 各个动画的开始偏移（开始时间）来达到动画顺序播放的效果。
+可以通过设置interpolator属性改变动画渐变的方式，如AccelerateInterpolator，开始时慢，然后逐渐加快。默认为AccelerateDecelerateInterpolator。
+定义好动画的XML文件后，可以通过类似下面的代码对指定View应用动画。
+ImageView spaceshipImage = (ImageView)findViewById(R.id.spaceshipImage);&amp;lt;br /&amp;gt; Animation hyperspaceJumpAnimation=AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);&amp;lt;br /&amp;gt; spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+ Drawable Animation（Frame Animation）   Drawable Animation（Frame Animation）：帧动画，就像GIF图片，通过一系列Drawable依次显示来模拟动画的效果。在XML中的定义方式如下：
+``
+必须以为根元素，以表示要轮换显示的图片，duration属性表示各项显示的时间。XML文件要放在/res/drawable/目录下。示例：
+protected void onCreate(Bundle savedInstanceState) {&amp;lt;br /&amp;gt; // TODO Auto-generated method stub&amp;lt;br /&amp;gt; super.onCreate(savedInstanceState);&amp;lt;br /&amp;gt; setContentView(R.layout.main);&amp;lt;br /&amp;gt; imageView = (ImageView) findViewById(R.id.imageView1);&amp;lt;br /&amp;gt; imageView.setBackgroundResource(R.drawable.drawable_anim);&amp;lt;br /&amp;gt; anim = (AnimationDrawable) imageView.">
+  <meta property="og:url" content="https://imxqd.xyz/index.php/2015/06/20/android%E5%BC%80%E5%8F%91animation%E5%8A%A8%E7%94%BB%E7%9A%84%E4%BD%BF%E7%94%A8/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="https://imxqd.xyz/index.php/2015/06/20/android%E5%BC%80%E5%8F%91animation%E5%8A%A8%E7%94%BB%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="imxqd.xyz">
+<meta name="msapplication-tooltip" content="imxqd.xyz">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="https://imxqd.xyz/"><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="https://imxqd.xyz/">imxqd.xyz</a></h2>
+  
+  <p class="subtitle"></p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">[Android]Animation动画的使用</h1>
+      <p class="post-meta">@imxqd · Jun 20, 2015 · 1 min read</p>
+    </header>
+    <article class="post-content">
+
+<ol>
+<li>View Animation（Tween Animation）
+<br /></li>
+</ol>
+
+<p>View Animation（Tween Animation）：补间动画，给出两个关键帧，通过一些算法将给定属性值在给定的时间内在两个关键帧间渐变。</p>
+
+<p>View animation只能应用于View对象，而且只支持一部分属性，如支持缩放旋转而不支持背景颜色的改变。</p>
+
+<p>而且对于View animation，它只是改变了View对象绘制的位置，而没有改变View对象本身，比如，你有一个Button，坐标 （100,100），Width:200,Height:50，而你有一个动画使其变为Width：100，Height：100，你会发现动画过程中触 发按钮点击的区域仍是(100,100)-(300,150)。</p>
+
+<p>View Animation就是一系列View形状的变换，如大小的缩放，透明度的改变，位置的改变，动画的定义既可以用代码定义也可以用XML定义，当然，建议用XML定义。</p>
+
+<p>可以给一个View同时设置多个动画，比如从透明至不透明的淡入效果，与从小到大的放大效果，这些动画可以同时进行，也可以在一个完成之后开始另一个。</p>
+
+<p>用XML定义的动画放在/res/anim/文件夹内，XML文件的根元素可以 为,,,,interpolator 元素或(表示以上几个动画的集合，set可以嵌套)。默认情况下，所有动画是同时进行的，可以通过startOffset属性设置 各个动画的开始偏移（开始时间）来达到动画顺序播放的效果。</p>
+
+<p>可以通过设置interpolator属性改变动画渐变的方式，如AccelerateInterpolator，开始时慢，然后逐渐加快。默认为AccelerateDecelerateInterpolator。</p>
+
+<p>定义好动画的XML文件后，可以通过类似下面的代码对指定View应用动画。</p>
+
+<p><code>ImageView spaceshipImage = (ImageView)findViewById(R.id.spaceshipImage);&lt;br /&gt;
+Animation hyperspaceJumpAnimation=AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);&lt;br /&gt;
+spaceshipImage.startAnimation(hyperspaceJumpAnimation);</code></p>
+
+<ol>
+<li>Drawable Animation（Frame Animation）
+<br /></li>
+</ol>
+
+<p>Drawable Animation（Frame Animation）：帧动画，就像GIF图片，通过一系列Drawable依次显示来模拟动画的效果。在XML中的定义方式如下：</p>
+
+<p>``</p>
+
+<p>必须以为根元素，以表示要轮换显示的图片，duration属性表示各项显示的时间。XML文件要放在/res/drawable/目录下。示例：</p>
+
+<p><code>protected void onCreate(Bundle savedInstanceState) {&lt;br /&gt;
+// TODO Auto-generated method stub&lt;br /&gt;
+super.onCreate(savedInstanceState);&lt;br /&gt;
+setContentView(R.layout.main);&lt;br /&gt;
+imageView = (ImageView) findViewById(R.id.imageView1);&lt;br /&gt;
+imageView.setBackgroundResource(R.drawable.drawable_anim);&lt;br /&gt;
+anim = (AnimationDrawable) imageView.getBackground();&lt;br /&gt;
+}</code></p>
+
+<p>public boolean onTouchEvent(MotionEvent event) {</p>
+
+<p>if (event.getAction() == MotionEvent.ACTION_DOWN) {</p>
+
+<p>anim.stop();</p>
+
+<p>anim.start();</p>
+
+<p>return true;</p>
+
+<p>}</p>
+
+<p>return super.onTouchEvent(event);</p>
+
+<p>}</p>
+
+<p>&nbsp;</p>
+
+<h3 id="3-property-animation">3. Property Animation</h3>
+
+<p>属性动画，这个是在Android 3.0中才引进的，以前学WPF时里面的动画机制好像就是这个，它更改的是对象的实际属性，在View Animation（Tween Animation）中，其改变的是View的绘制效果，真正的View的属性保持不变，比如无论你在对话中如何缩放Button的大小，Button的 有效点击区域还是没有应用动画时的区域，其位置与大小都不变。而在Property Animation中，改变的是对象的实际属性，如Button的缩放，Button的位置与大小属性值都改变了。而且Property Animation不止可以应用于View，还可以应用于任何对象。Property Animation只是表示一个值在一段时间内的改变，当值改变时要做什么事情完全是你自己决定的。</p>
+
+<p>在Property Animation中，可以对动画应用以下属性：</p>
+
+<ul>
+<li>Duration：动画的持续时间</li>
+<li>TimeInterpolation：属性值的计算方式，如先快后慢</li>
+<li>TypeEvaluator：根据属性的开始、结束值与TimeInterpolation计算出的因子计算出当前时间的属性值</li>
+<li>Repeat Country and behavoir：重复次数与方式，如播放3次、5次、无限循环，可以此动画一直重复，或播放完时再反向播放</li>
+<li>Animation sets：动画集合，即可以同时对一个对象应用几个动画，这些动画可以同时播放也可以对不同动画设置不同开始偏移</li>
+<li>Frame refreash delay：多少时间刷新一次，即每隔多少时间计算一次属性值，默认为10ms，最终刷新时间还受系统进程调度与硬件的影响</li>
+</ul>
+
+<h3 id="a-name-t3-a-3-1-property-animation的工作方式"><a name="t3"></a>3.1 Property Animation的工作方式</h3>
+
+<p>对于下图的动画，这个对象的X坐标在40ms内从0移动到40 pixel.按默认的10ms刷新一次，这个对象会移动4次，每次移动40/4=10pixel。</p>
+
+<p><img src="https://pic002.cnblogs.com/images/2011/168097/2011120119185844.png" alt="" /></p>
+
+<p>也可以改变属性值的改变方法，即设置不同的interpolation，在下图中运动速度先逐渐增大再逐渐减小</p>
+
+<p><img src="https://pic002.cnblogs.com/images/2011/168097/2011120119190666.png" alt="" /></p>
+
+<p>下图显示了与上述动画相关的关键对象</p>
+
+<p><img src="https://pic002.cnblogs.com/images/2011/168097/2011120119191590.png" alt="" /></p>
+
+<p>ValueAnimator即表示一个动画，包含动画的开始值，结束值，持续时间等属性。</p>
+
+<p>ValueAnimator封装了一个TimeInterpolator，TimeInterpolator定义了属性值在开始值与结束值之间的插值方法。</p>
+
+<p>ValueAnimator还封装了一个TypeAnimator，根据开始、结束值与TimeIniterpolator计算得到的值计算出属性值。</p>
+
+<p>ValueAnimator根据动画已进行的时间跟动画总时间（duration）的比计算出一个时间因子（0~1），然后根据TimeInterpolator计算出另一个因子，最后TypeAnimator通过这个因子计算出属性值，如上例中10ms时：</p>
+
+<p>首先计算出时间因子，即经过的时间百分比：t=10ms/40ms=0.25</p>
+
+<p>经插值计算(inteplator)后的插值因子:大约为0.15，上述例子中用了AccelerateDecelerateInterpolator，计算公式为（input即为时间因子）：</p>
+
+<div>
+  <pre>(Math.cos((input + 1) * Math.PI) / 2.0f) + 0.5f;</pre>
+</div>
+
+<p>最后根据TypeEvaluator计算出在10ms时的属性值：0.15*（40-0）=6pixel。上例中TypeEvaluator为FloatEvaluator，计算方法为 ：</p>
+
+<pre>public Float evaluate(float fraction, Number startValue, Number endValue) {
+        float startFloat = startValue.floatValue();
+        return startFloat + fraction * (endValue.floatValue() - startFloat);
+    }</pre>
+
+<p>参数分别为上一步的插值因子，开始值与结束值。</p>
+
+<p>3.2 ValueAnimator</p>
+
+<p>ValueAnimator包含Property Animation动画的所有核心功能，如动画时间，开始、结束属性值，相应时间属性值计算方法等。应用Property Animation有两个步聚：</p>
+
+<p>计算属性值</p>
+
+<p>根据属性值执行相应的动作，如改变对象的某一属性。</p>
+
+<p>ValuAnimiator只完成了第一步工作，如果要完成第二步，需要实现ValueAnimator.onUpdateListener接口，如：</p>
+
+<pre>ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);
+animation.setDuration(1000);
+animation.addUpdateListener(new AnimatorUpdateListener() {
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation) {
+        Log.i("update", ((Float) animation.getAnimatedValue()).toString());
+    }
+});
+animation.setInterpolator(new CycleInterpolator(3));
+animation.start();</pre>
+
+<h3 id="3-3-objectanimator">3.3 ObjectAnimator</h3>
+
+<p>继承自ValueAnimator，要指定一个对象及该对象的一个属性，当属性值计算完成时自动设置为该对象的相应属性，即完成了 Property Animation的全部两步操作。实际应用中一般都会用ObjectAnimator来改变某一对象的某一属性，但用ObjectAnimator有一 定的限制，要想使用ObjectAnimator，应该满足以下条件：</p>
+
+<ul>
+<li>对象应该有一个setter函数：set<PropertyName>（驼峰命名法）</li>
+<li>如上面的例子中，像ofFloat之类的工场方法，第一个参数为对象名，第二个为属性名，后面的参数为可变参数，如果values…参数只设置了 一个值的话，那么会假定为目的值，属性值的变化范围为当前值到目的值，为了获得当前值，该对象要有相应属性的getter方 法：get<PropertyName></li>
+<li>如果有getter方法，其应返回值类型应与相应的setter方法的参数类型一致。</li>
+</ul>
+
+<p>如果上述条件不满足，则不能用ObjectAnimator，应用ValueAnimator代替。</p>
+
+<h3 id="3-4-通过animationset应用多个动画">3.4 通过AnimationSet应用多个动画</h3>
+
+<p>AnimationSet提供了一个把多个动画组合成一个组合的机制，并可设置组中动画的时序关系，如同时播放，顺序播放等。</p>
+
+<p>&nbsp;</p>
+
+<p>内容主要来自<a href="http://developer.android.com">http://developer.android.com</a></p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        This post was published <strong>1454</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 imxqd.xyz</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

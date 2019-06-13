@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on imxqd.xyz</title>
+    <link>https://imxqd.xyz/posts/</link>
+    <description>Recent content in Posts on imxqd.xyz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 17 May 2016 09:08:38 +0000</lastBuildDate>
+    
+	<atom:link href="https://imxqd.xyz/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>基于TCP/IP协议族的攻击技术及其防范</title>
+      <link>https://imxqd.xyz/index.php/2016/05/17/%E5%9F%BA%E4%BA%8Etcpip%E5%8D%8F%E8%AE%AE%E6%97%8F%E7%9A%84%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF%E5%8F%8A%E5%85%B6%E9%98%B2%E8%8C%83/</link>
+      <pubDate>Tue, 17 May 2016 09:08:38 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2016/05/17/%E5%9F%BA%E4%BA%8Etcpip%E5%8D%8F%E8%AE%AE%E6%97%8F%E7%9A%84%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF%E5%8F%8A%E5%85%B6%E9%98%B2%E8%8C%83/</guid>
+      <description>基于TCP/IP协议族的攻击技术及其防范
+ 介绍TCP/IP协议(理论基础)
+   IP协议
+  IP协议工作在OSI参考模型的网络层上, 是TCP/IP协议的核心，所有的TCP，UDP，IMCP等协议的数据都以IP数据格式传输，几乎可以说是现代互联网所有网络层及以上协议的基础，所以在这里有必要拿出来单独做介绍。但是，IP是无连接的，不可靠的协议。之所以说它无连接，是因为IP分组是互不相关的。若要把它们联系起来，只能通过传输层及以上的网络协议。每个IP分组中都含有源地址和目的地址，因此可以独立的进行传输；之所以说它不可靠，是因为它不保证每个IP分组都能送到或按照原有顺序提交。
+ 以下是IP协议的分组格式：
+  其中，
+ 生存期 是用来设置数据报最多可以经过的路由器数。由发送数据的源主机设置，通常为32、64、128等。每经过一个路由器，其值减1，直到0时该数据报被丢弃。
+ 协议 是用来标识IP数据报有效负载所用的高层协议的。
+ 选项 主要用来进行网络测试或调试，定义了多种选项，设计安全，路由方面，常用的选项有：
+  严格源路由
+   松散源路由
+   记录路由
+   时间戳
+    TCP协议
+  不同主机的应用层之间经常需要可靠的、像管道一样的连接，但是IP层不提供这样的流机制，而是提供不可靠的包交换，TCP协议就是一个提供这样的服务的网络协议。TCP协议工作在OSI参考模型的传输层上，是一种面向连接的（逻辑上的）、可靠的、基于字节流的传输层通信协议。下面是TCP协议的数据包格式：
+      偏移  位0–3  4–7  8–15  16–31     来源连接端口  目的连接端口   32  序列号码（seq）   64  确认号码(ack)   96  报头长度  保留  标志符  窗口大小   128  校验和  紧急指针   160  选项字段   160/192+  数据     其中标识符的标志位包括：</description>
+    </item>
+    
+    <item>
+      <title>STAF自动化测试框架的基本使用方法</title>
+      <link>https://imxqd.xyz/index.php/2016/05/15/staf%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sun, 15 May 2016 13:28:09 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2016/05/15/staf%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</guid>
+      <description>操作步骤(以Windows为例):
+ STAF/STAX的下载/安装和配置
+  在http://staf.sourceforge.net/ 上下载并安装STAF
+  在STAF的安装目录下新建services目录
+ 下载STAX并解压到STAF目录下的services目录
+  修改STAF/bin/STAF.cfg文件,添加以下内容
+       SERVICE STAX LIBRARY JSTAF EXECUTE /{STAF/Config/STAFRoot}/services/stax/STAX.jar OPTION J2=-Xmx384m
+  SERVICE EVENT LIBRARY JSTAF EXECUTE /{STAF/Config/STAFRoot}/services/stax/STAFEvent.jar
+ SET MAXQUEUESIZE 10000     如图:
+  双击运行STAF目录下的startSTAFProc.bat文件,如下图:
+  在另一个命令行窗口或者另一台主机的命令行下:
+  如图表示连接成功
+ 再列出服务列表,如图:
+  表示STAX安装并配置正确
+ 至此STAF/STAX配置完成
+  新建并执行Job
+  在STAFservicesstax目录下,执行:
+      Java –jar STAXMon.</description>
+    </item>
+    
+    <item>
+      <title>渗透测试工具ZAP的使用</title>
+      <link>https://imxqd.xyz/index.php/2016/05/15/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7zap%E7%9A%84%E4%BD%BF%E7%94%A8-2/</link>
+      <pubDate>Sun, 15 May 2016 13:18:01 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2016/05/15/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7zap%E7%9A%84%E4%BD%BF%E7%94%A8-2/</guid>
+      <description> ZAP的使用
+   首先在https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project
+下载ZAP,ZAP工具是使用Java编写的,所以基本上可以支持所有主流平台
+这里下载的是Windows版
+双击ZAP_2.4.3_Windows.exe, 按照提示完成安装
+安装完成后, 在桌面上双击图标启动软件
+由于只是试验而已, 所以选择No, 然后点 Start
+进入软件后, 默认处于 Quick Start页面, 在此页面可以快速开始测试
+在URL to attack出填写http://imxqd.xyz 即可对我的WordPress博客进行快速爬虫并扫描漏洞
+经过一段时间的爬虫和扫描后, 可以得到ZAP扫描的结果
+图中发现了258个中风险漏洞
+点击其中的一个, 弹出对话框, 给出了漏洞描述和解决方法, 以及一些博客上关于此漏洞的博文的链接
+此外还可以通过浏览器代理方式来扫描漏洞,ZAP默认的代理端口号为8080
+可以在Google Chrome中使用SwitchyOmga(可在Google Chrome网上应用商店下载安装)来设置代理
+启用代理:
+然后再浏览器访问http://my.hfut.edu.cn
+输入用户名,密码和验证码进入系统,在进入教学管理系统,进行一系列操作
+ZAP也在同步录制中,最后ZAP没有发现严重漏洞,结果和http://imxqd.xyz大同小异
+ZAP还有一些非常实用的小工具:
+ 安全测试
+   针对我最近正在写的一个Web+Android的应用类库,测试其Web的前端部分
+主动扫描地址: http://imxqd.xyz/feedback/?a=li&amp;amp;id=11&amp;amp;ver=vju0xlttbK
+最终扫描结果,共发现1个漏洞,其中1个高风险漏洞
+此漏洞中文名称为 目录遍历漏洞,指的是应用程序对文件路径没有检查导致服务器上的敏感文件/代码泄漏。此漏洞可能会导致源代码等敏感信息泄露。
+修复方法, 由于我使用的服务器程序是Apache, 服务器脚本解释器为php, 在网上搜索解决方法,得到解决方法如下:
+    在php.ini中进行如下配置：open_basedir = 服务器上WEB目录的路径(注，路径最后需要加上斜杠作为结束)，如：open_basedir = /var/www/html/     </description>
+    </item>
+    
+    <item>
+      <title>[Android]准确获取导航栏高度和状态栏高度</title>
+      <link>https://imxqd.xyz/index.php/2016/03/14/android%E5%87%86%E7%A1%AE%E8%8E%B7%E5%8F%96%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%AB%98%E5%BA%A6%E5%92%8C%E7%8A%B6%E6%80%81%E6%A0%8F%E9%AB%98%E5%BA%A6/</link>
+      <pubDate>Mon, 14 Mar 2016 05:27:43 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2016/03/14/android%E5%87%86%E7%A1%AE%E8%8E%B7%E5%8F%96%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%AB%98%E5%BA%A6%E5%92%8C%E7%8A%B6%E6%80%81%E6%A0%8F%E9%AB%98%E5%BA%A6/</guid>
+      <description>目前Android SDK中没有比较好的获取状态栏和导航栏高度的官方方法,下面给出一种较为靠谱的方法(来源于网络),方法利用了Java的反射机制.
+private static boolean checkDeviceHasNavigationBar(Context context) { boolean hasNavigationBar = false; Resources rs = context.getResources(); int id = rs.getIdentifier(&#34;config_showNavigationBar&#34;, &#34;bool&#34;, &#34;android&#34;); if (id  0) { hasNavigationBar = rs.getBoolean(id); } try { Class systemPropertiesClass = Class.forName(&#34;android.os.SystemProperties&#34;); Method m = systemPropertiesClass.getMethod(&#34;get&#34;, String.class); String navBarOverride = (String) m.invoke(systemPropertiesClass, &#34;qemu.hw.mainkeys&#34;); if (&#34;1&#34;.equals(navBarOverride)) { hasNavigationBar = false; } else if (&#34;0&#34;.equals(navBarOverride)) { hasNavigationBar = true; } } catch (Exception e) { Log.e(&#34;Tool&#34;, &#34;get navigation bar height failed!</description>
+    </item>
+    
+    <item>
+      <title>[Android]Activity的生命周期详解</title>
+      <link>https://imxqd.xyz/index.php/2015/11/26/androidactivity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Thu, 26 Nov 2015 14:11:29 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/11/26/androidactivity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E8%AF%A6%E8%A7%A3/</guid>
+      <description>这是Android开发最最基本的问题,最近才发现我对activity的生命周期的掌握并不深刻.
+Activity 基本上以三种状态存在：
+运行中
+此 Activity 位于屏幕前台并具有用户焦点。
+已暂停
+另一个 Activity 位于屏幕前台并具有用户焦点，但此 Activity 仍可见。也就是说，另一个 Activity 显示在此 Activity 上方，并且该 Activity 部分透明或未覆盖整个屏幕。 已暂停的 Activity 处于完全 Activity 状态（Activity 对象保留在内存中，它保留了所有状态和成员信息，并与窗口管理器保持连接），但在内存极度不足的情况下，可能会被系统终止。
+已停止
+该 Activity 被另一个 Activity 完全遮盖（该 Activity 目前位于“后台”）。 已停止的 Activity 同样仍处于 Activity 状态（Activity 对象保留在内存中，它保留了所有状态和成员信息，但未与窗口管理器连接）。 不过，它对用户不再可见，在他处需要内存时可能会被系统终止。
+如果 Activity 处于暂停或停止状态，系统可通过要求其结束（调用其 finish() 方法）或直接终止其进程，将其从内存中删除。（将其结束或终止后）再次打开 Activity 时，必须重建。
+下面来一张经典的Activity的生命周期图:
+
+对各个生命周期时间节点的回调函数的说明:
+&amp;nbsp;
+这张图包含了Activity的生命周期的详细过程和情况,这张图中有几个需要注意的地方,我们待会儿再说.
+先说说一个Activity的一般情况下的生命周期:
+onCreate-&amp;gt;onStart-&amp;gt;onResume-&amp;gt;onPause-&amp;gt;onStop-&amp;gt;onDestroy
+这种情况在打开一个单独的Activity然后退出的情况
+在考虑两个Activity的情况,在MainActivity中打开Main2Activity,然后返回MainActivity,再退出,生命周期如下:
+04-24 06:50:03.099 10661-10661/xyz.imxqd.test I/MainActivity: onCreate 04-24 06:50:03.139 10661-10661/xyz.imxqd.test I/MainActivity: onStart 04-24 06:50:03.139 10661-10661/xyz.imxqd.test I/MainActivity: onResume 04-24 06:50:03.</description>
+    </item>
+    
+    <item>
+      <title>让体重飞demo版本发布！</title>
+      <link>https://imxqd.xyz/index.php/2015/06/29/%E8%AE%A9%E4%BD%93%E9%87%8D%E9%A3%9Edemo%E7%89%88%E6%9C%AC%E5%8F%91%E5%B8%83/</link>
+      <pubDate>Mon, 29 Jun 2015 12:05:06 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/06/29/%E8%AE%A9%E4%BD%93%E9%87%8D%E9%A3%9Edemo%E7%89%88%E6%9C%AC%E5%8F%91%E5%B8%83/</guid>
+      <description>下载地址
+app-release.apk{.wp2pcs-download}
+若以上不能下载，请百度云盘下载
+百度云盘地址：
+http://pan.baidu.com/s/1eQIX48i</description>
+    </item>
+    
+    <item>
+      <title>[Android]多Fragment下，横竖屏切换恢复界面问题</title>
+      <link>https://imxqd.xyz/index.php/2015/06/28/android%E5%A4%9Afragment%E4%B8%8B%E6%A8%AA%E7%AB%96%E5%B1%8F%E5%88%87%E6%8D%A2%E6%81%A2%E5%A4%8D%E7%95%8C%E9%9D%A2%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sun, 28 Jun 2015 09:40:37 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/06/28/android%E5%A4%9Afragment%E4%B8%8B%E6%A8%AA%E7%AB%96%E5%B1%8F%E5%88%87%E6%8D%A2%E6%81%A2%E5%A4%8D%E7%95%8C%E9%9D%A2%E9%97%AE%E9%A2%98/</guid>
+      <description>Android手机在横竖屏切换时，会调用当前Activity的onDestroy的方法来结束当前Activity实例，然后再重新创建一个新的Activity的实例，这造成了横竖屏切换相当于关闭应用重新打开了，fragment被重置到了默认的（第一个）了，我们该怎么办呢？
+很容易想到，我们在系统结束当前Activity实例的时候，保存下当前的fragment，于是我们想到了，重写onDestroy()的方法。
+我采用的是如下的方法
+定义一个静态的Fragment对象
+static Fragment curr_fragment = null;
+新建一个方法
+private void changeCurrFragment(Fragment fragment)&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; curr_fragment = fragment;&amp;lt;br /&amp;gt; FragmentManager fragmentManager = getFragmentManager();&amp;lt;br /&amp;gt; fragmentManager&amp;lt;br /&amp;gt; .beginTransaction()&amp;lt;br /&amp;gt; .replace(R.id.container, curr_fragment)&amp;lt;br /&amp;gt; .commit();&amp;lt;br /&amp;gt; }&amp;lt;br /&amp;gt; 
+在以后切换fragment的时候，都调用这个方法,这样可以实现不用重写onDestroy()就保存了当前fragment
+在onCreate（）方法中初始化视图时，判断curr_fragment是否为null，如果为null则新建一个fragment实例，然后调用changeCurrFragment方法。
+这样做看起来貌似是可以了。。。
+但是！！！！
+注意想一想Fragment的生命周期，Fragment随着Activity的消亡而消亡，所以这样是不可以的！！
+你们可以试一试，这样横竖屏切换后将是空白
+可以增加这样一个方法
+&amp;lt;br /&amp;gt; private void recreateFragment()&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; if(curr_fragment != null)&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; System.out.println(curr_fragment.getClass().getSimpleName());&amp;lt;/p&amp;gt; &amp;lt;p&amp;gt; switch (curr_fragment.getClass().getSimpleName())&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; case &amp;quot;Fragment1&amp;quot;:&amp;lt;br /&amp;gt; curr_fragment = Fragment1.</description>
+    </item>
+    
+    <item>
+      <title>[Android]SQLite函数大全</title>
+      <link>https://imxqd.xyz/index.php/2015/06/24/sqlite%E5%87%BD%E6%95%B0%E5%A4%A7%E5%85%A8/</link>
+      <pubDate>Wed, 24 Jun 2015 13:12:01 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/06/24/sqlite%E5%87%BD%E6%95%B0%E5%A4%A7%E5%85%A8/</guid>
+      <description>abs(X) 返回参数X的绝对值
+coalesce(X,Y,……) 返回第一个非空参数的副本。若所有的参数均为NULL，返回NULL。至少2个参数。
+ifnull(X,Y) 返回第一个非空参数的副本。若两个参数均为NULL，返回NULL。
+last_insert_rowid() 返回当前数据库连接最后插入行的RowID。
+length(X) 返回X的长度，以字符计。
+lower(X) 返回X字符串的所有字符小写化版本。
+max(X,Y) 返回最大值。
+nullif(X,Y) 当两参数不同时返回X，否则返回NULL。
+quote(X) 返回参数的适于插入其他SQL语句中的值。字符串会被添加单引号。
+random(*) 返回介于-231和231之间的随机整数。
+round(X)或round(X,Y) 将X四舍五入，保留小数点后Y位。若忽略Y参数，则默认其为0。
+sqlite_version(*) 返回所运行的SQLite库的版本号字符串。
+substr(X,Y,Z) 返回输入字符串X中以第Y个字符开始，Z个字符长的子串。X最左端的字符序号为1。若Y为负，则从右至左数起。
+typeof(X) 返回表达式X的类型。
+upper(X) 返回X字符串的所有字符大写化版本。
+在单参数聚集函数中，参数可以加前缀distinct。这时重复参数会被过滤掉，然后才传入到函数中。例如，函数count(distinct X)返回字段X的不重复非空值的个数，而不是字段X的全部非空值。
+avg(X) 返回一组中非空的X的平均值。非数字值作0处理。结果总是一个浮点数。
+count(X) 返回一组中X是非空值的次数。
+count(*) 返回该组中的行数。
+change_count() 返回受上一语句影响的行数。
+max(X) 返回一组中的最大值。
+min(X) 返回一组中的最小值。
+sum(X)和total(X) 返回一组中所有非空值的数字和。若没有非空行，sum()返回null而total()返回0.0。total()的返回值为浮点数，sum()可以为整数。
+date(日期时间字符串，修正符，修正符，……) 返回一个以YYYY-MM-DD为格式的日期。
+time(日期时间字符串，修正符，修正符，……) 返回一个以HH:MM:SS 为格式的日期时间。
+datetime(日期时间字符串，修正符，修正符，……) 返回一个以YYYY-MM-DD HH:MM:SS 为格式的日期时间。
+julianday(日期时间字符串，修正符，修正符，……) 返回一个天数，从格林威治时间公元前4714年11月24号开始算起。
+strftime(日期时间格式，日期时间字符串，修正符，修正符，……) 返回一个经过格式化的日期时间，它可以用以下的符号对日期和时间进行格式化：
+%d 一月中的第几天，01-31
+%f 小数形式的秒，SS.SSSS
+%H 小时，00-24
+%j 一年中的第几天，01-366
+%J Julian Day Numbers</description>
+    </item>
+    
+    <item>
+      <title>[Android]RecyclerView使用详解（1）（2）（3）</title>
+      <link>https://imxqd.xyz/index.php/2015/06/24/recyclerview%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3123/</link>
+      <pubDate>Wed, 24 Jun 2015 05:15:41 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/06/24/recyclerview%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3123/</guid>
+      <description>RecyclerView使用详解（一）
+RecyclerView使用详解（二）
+RecyclerView使用详解（三）
+讲的不错</description>
+    </item>
+    
+    <item>
+      <title>[Android]Bitmap too large问题的解决方法</title>
+      <link>https://imxqd.xyz/index.php/2015/06/23/androidbitmap-too-large%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Tue, 23 Jun 2015 10:41:43 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/06/23/androidbitmap-too-large%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+      <description>今天在进行Android Coding时，遇到了一个关于图像显示的问题，主要是图片过大，无法显示，log显示：
+Bitmap too large to be uploaded into a texture
+意思是图片超过了硬件加速所规定的高度。这个异常程序本身没有捕获,图片有可能会显示不出来,只能看log。在网上找了很久发现大多数都是直接把硬件加速关闭。
+android:hardwareAccelerated=&#34;false&#34; 但是我把硬件加速关闭后，可以明显地感受到滑动时画面的掉帧。于是我另寻它法。
+于是我又找到了两个方法：
+1.缩小图片后显示
+2.重写ImageView的
+public void drawBitmap (Bitmap bitmap, Rect src, RectF dst, Paint paint) public Bitmap decodeRegion (Rect rect, BitmapFactory.Options options)  方法，实现异步加载长图。
+刚好，我的需求仅仅是要一个小图片（但我不能要求用户只选小图片啊），第一个方法刚好。
+贴出我的部分代码
+在Activity中：
+@Override protected void onActivityResult(int requestCode, int resultCode, Intent data) { if (resultCode == RESULT_OK &amp;&amp; isDone == false) { final Uri uri = data.getData(); Log.e(&#34;uri&#34;, uri.toString()); Toast.makeText(getBaseContext(),R.string.resize_doing,Toast.LENGTH_SHORT).show(); resizing = new ResizeBMPRunable(uri); new Thread(resizing).</description>
+    </item>
+    
+    <item>
+      <title>[Android]AppCompat v21 Theme详细介绍</title>
+      <link>https://imxqd.xyz/index.php/2015/06/23/android-appcompat-v21-theme%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Tue, 23 Jun 2015 03:45:21 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/06/23/android-appcompat-v21-theme%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D/</guid>
+      <description>关键字：Android Lollipop AppCompat Material Theme
+本文作为读书笔记的总结性内容，起因是29日看到某社交网站谷歌的Matias Duarte分享一个链接，点进去发现是blogspot更新了，于是借此机会做一个总结，所以本文内容目前是基于19月28日信息，11月3日后根据更详细的信息进行进一步修正。
+ —-正文的分割线—– 本文描述基于Android 5.0 Lollipop的主题以及围绕新Material Design设计规范在交互与界面上的实现问题，并且是基于Support v7 AppCompat v21类库，其最主要的目的是将新特性与交互方式兼容到4.x版本。本文的参考主要来源于：
+Android 开发者网站 Android Developer
+Android 开发者博客 Android Developer blogspot
+引用原文与细节将在引用位置提供链接或在结尾进行详细说明。
+首先在官方 Maintaining Compatibility 的描述为使用Support v7 r21类库可以实现一些Material design style。其主要包含：
+  1、提供一个类似于5.0的Material design风格的界面。通过Theme.AppCompat主题实现。  2、调色板应用，Color Palette。体现在主题是可以根据给定的色彩统一渲染控件，达到界面显示效果统一。  3、提供RecyclerView，由于其内部实现了LayoutManager，所以可以实现更多变的布局与动画。  4、提供CardView，主要提供类似于Android 5.0的Z轴阴影效果，也表明卡片元素在新的设计规范中的重要性。  5、Palette，在代码中的效果就是通过Palette工具可是提取主题色用于界面动态渲染(这属于界面Material动画的关键，其后进行详细说明)。  Widget渲染
+界面控件渲染截止到14年10月29日支持EditText、Spinner、CheckBox、RadioButton、SwitchCompat、CheckedTextView，通过实际测试可知依旧有许多控件未完全兼容，甚至包括Dialog依旧使用系统默认风格。同时Google Design网站关于设计的细节依旧没有明确的说明，其自家应用也是每个都一个样，文档也一直处于预览版状态，希望伴随着11月3日Android 5.0 的发布，相关文档与设计规范能够跟进。
+对Android 5.0新特性的支持
+对于Android 5.0非常令人兴奋的功能，也没有进行完整的兼容，如Touch feedback，scene transitions animation。控件方面，Floating Action Button也没有提供。根据开发者关系小组博客上的反馈信息，这些已经列上了日程，希望在Android 5.0正式发布后会进行支持。
+接下来从代码角度说明对Material主题样式的兼容。首先和兼容Actionbar一样，依赖AppCompat v21项目并使所有Activity继承ActionBarActivity，使用Theme.AppCompat.xx一系列主题，即可在视觉上达到与Android 5.0相似的效果。
+  在 《AppCompat v21 – Material Design for Pre-Lollipop Devices!</description>
+    </item>
+    
+    <item>
+      <title>[Android]Animation动画的使用</title>
+      <link>https://imxqd.xyz/index.php/2015/06/20/android%E5%BC%80%E5%8F%91animation%E5%8A%A8%E7%94%BB%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Sat, 20 Jun 2015 14:08:58 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/06/20/android%E5%BC%80%E5%8F%91animation%E5%8A%A8%E7%94%BB%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <description>View Animation（Tween Animation）   View Animation（Tween Animation）：补间动画，给出两个关键帧，通过一些算法将给定属性值在给定的时间内在两个关键帧间渐变。
+View animation只能应用于View对象，而且只支持一部分属性，如支持缩放旋转而不支持背景颜色的改变。
+而且对于View animation，它只是改变了View对象绘制的位置，而没有改变View对象本身，比如，你有一个Button，坐标 （100,100），Width:200,Height:50，而你有一个动画使其变为Width：100，Height：100，你会发现动画过程中触 发按钮点击的区域仍是(100,100)-(300,150)。
+View Animation就是一系列View形状的变换，如大小的缩放，透明度的改变，位置的改变，动画的定义既可以用代码定义也可以用XML定义，当然，建议用XML定义。
+可以给一个View同时设置多个动画，比如从透明至不透明的淡入效果，与从小到大的放大效果，这些动画可以同时进行，也可以在一个完成之后开始另一个。
+用XML定义的动画放在/res/anim/文件夹内，XML文件的根元素可以 为,,,,interpolator 元素或(表示以上几个动画的集合，set可以嵌套)。默认情况下，所有动画是同时进行的，可以通过startOffset属性设置 各个动画的开始偏移（开始时间）来达到动画顺序播放的效果。
+可以通过设置interpolator属性改变动画渐变的方式，如AccelerateInterpolator，开始时慢，然后逐渐加快。默认为AccelerateDecelerateInterpolator。
+定义好动画的XML文件后，可以通过类似下面的代码对指定View应用动画。
+ImageView spaceshipImage = (ImageView)findViewById(R.id.spaceshipImage);&amp;lt;br /&amp;gt; Animation hyperspaceJumpAnimation=AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);&amp;lt;br /&amp;gt; spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+ Drawable Animation（Frame Animation）   Drawable Animation（Frame Animation）：帧动画，就像GIF图片，通过一系列Drawable依次显示来模拟动画的效果。在XML中的定义方式如下：
+``
+必须以为根元素，以表示要轮换显示的图片，duration属性表示各项显示的时间。XML文件要放在/res/drawable/目录下。示例：
+protected void onCreate(Bundle savedInstanceState) {&amp;lt;br /&amp;gt; // TODO Auto-generated method stub&amp;lt;br /&amp;gt; super.onCreate(savedInstanceState);&amp;lt;br /&amp;gt; setContentView(R.layout.main);&amp;lt;br /&amp;gt; imageView = (ImageView) findViewById(R.id.imageView1);&amp;lt;br /&amp;gt; imageView.setBackgroundResource(R.drawable.drawable_anim);&amp;lt;br /&amp;gt; anim = (AnimationDrawable) imageView.</description>
+    </item>
+    
+    <item>
+      <title>[Android]可用的Drawable Resources</title>
+      <link>https://imxqd.xyz/index.php/2015/06/16/%E5%8F%AF%E7%94%A8%E7%9A%84drawable-resourcesandroid-develop/</link>
+      <pubDate>Tue, 16 Jun 2015 11:32:01 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/06/16/%E5%8F%AF%E7%94%A8%E7%9A%84drawable-resourcesandroid-develop/</guid>
+      <description>Drawable Resources即可绘制的资源，可以用作例如android:drawable、android:icon等属性的值。
+根据Android Developer官网，Android一共支持以下几种Drawable Resources
+Bitmap File
+位图文件 (.png, .jpg, or .gif)。
+Nine-Patch File
+能够伸缩而不影响图片质量的一种png图片 (.9.png)。
+Layer List
+Drawable组，通过xml将一组Drawable整合起来，一层一层的分别绘制，最后一层会显示在最上面。
+State List
+与Layer List类似，可以把一组Drawable整合起来，但它还有更加高级的特性，可以根据所在UI控件的状态而显示不同的Drawable
+Level List
+同样是将一组Drawable整合起来，但Level List可以轮换显示
+Transition Drawable
+可以在两个Drawable之间进行切换
+Inset Drawable
+内嵌的Drawable，一般是让已有的Drawable在背景的一个特定位置显示时用
+Clip Drawable
+把已有的Drawable进行剪切生成的新的Drawable
+Scale Drawable
+把已有的Drawable进行拉伸生成的新的Drawable
+Shape Drawable
+图形Drawable，可以画出矩形，椭圆等等之类的图形</description>
+    </item>
+    
+    <item>
+      <title>Material design非官方中文指导手册</title>
+      <link>https://imxqd.xyz/index.php/2015/06/14/material-design%E9%9D%9E%E5%AE%98%E6%96%B9%E4%B8%AD%E6%96%87%E6%8C%87%E5%AF%BC%E6%89%8B%E5%86%8C/</link>
+      <pubDate>Sun, 14 Jun 2015 07:46:18 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/06/14/material-design%E9%9D%9E%E5%AE%98%E6%96%B9%E4%B8%AD%E6%96%87%E6%8C%87%E5%AF%BC%E6%89%8B%E5%86%8C/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>手动清除Android手机锁屏密码而不清除内容</title>
+      <link>https://imxqd.xyz/index.php/2015/05/31/%E6%89%8B%E5%8A%A8%E6%B8%85%E9%99%A4android%E6%89%8B%E6%9C%BA%E9%94%81%E5%B1%8F%E5%AF%86%E7%A0%81%E8%80%8C%E4%B8%8D%E6%B8%85%E9%99%A4%E5%86%85%E5%AE%B9/</link>
+      <pubDate>Sun, 31 May 2015 08:44:39 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/05/31/%E6%89%8B%E5%8A%A8%E6%B8%85%E9%99%A4android%E6%89%8B%E6%9C%BA%E9%94%81%E5%B1%8F%E5%AF%86%E7%A0%81%E8%80%8C%E4%B8%8D%E6%B8%85%E9%99%A4%E5%86%85%E5%AE%B9/</guid>
+      <description>你是不是有时候忘了锁屏密码呢？或者想做什么邪恶的事吗？现在我来教你如何清除锁屏密码。
+首先声明，这个方法并不是对所有手机Android都适用，本方法适用于满足以下条件的Android手机（满足任意一条即可）：
+1.手机已开启USB调试并且已经root
+2.手机安装了第三方Recovery（官方的Recovery部分手机也可以）
+对于第一种，我们将手机通过USB连接到电脑，电脑上要有Android SDK Tool，打开命令行工具，输入
+adb root
+adb shell
+rm data/system/gesture.key
+即可。
+对于第二种，方法基本同上，但在rm之前可能要先执行
+mount data
+进行挂载
+假如已经装了类似TWRP的Recovery，直接先点 advanced，然后点 file manager，找到 /data/system/ 下的 gesture.key ，点击它，然后在接下来的界面中，点“delete”按钮，开机就没有密码了！！
+假如是设置的锁屏密码，开机还是有那种 九宫格 锁屏图案的，但是你随便 滑动 一个图案就可以进入桌面哦！！一起来试试看吧！
+&amp;nbsp;</description>
+    </item>
+    
+    <item>
+      <title>知乎问答：2015 年 5 月 28 日的携程网宕机事件，可以给同行提供什么经验和教训？</title>
+      <link>https://imxqd.xyz/index.php/2015/05/30/%E7%9F%A5%E4%B9%8E%E9%97%AE%E7%AD%942015-%E5%B9%B4-5-%E6%9C%88-28-%E6%97%A5%E7%9A%84%E6%90%BA%E7%A8%8B%E7%BD%91%E5%AE%95%E6%9C%BA%E4%BA%8B%E4%BB%B6%E5%8F%AF%E4%BB%A5%E7%BB%99/</link>
+      <pubDate>Sat, 30 May 2015 02:55:55 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/05/30/%E7%9F%A5%E4%B9%8E%E9%97%AE%E7%AD%942015-%E5%B9%B4-5-%E6%9C%88-28-%E6%97%A5%E7%9A%84%E6%90%BA%E7%A8%8B%E7%BD%91%E5%AE%95%E6%9C%BA%E4%BA%8B%E4%BB%B6%E5%8F%AF%E4%BB%A5%E7%BB%99/</guid>
+      <description>2015 年 5 月 28 日的携程网宕机事件，可以给同行提供什么经验和教训？ http://www.zhihu.com/question/30749663 （分享自知乎网）</description>
+    </item>
+    
+    <item>
+      <title>知乎问答：股票这么火，是谁在亏钱？</title>
+      <link>https://imxqd.xyz/index.php/2015/05/30/%E7%9F%A5%E4%B9%8E%E9%97%AE%E7%AD%94%E8%82%A1%E7%A5%A8%E8%BF%99%E4%B9%88%E7%81%AB%E6%98%AF%E8%B0%81%E5%9C%A8%E4%BA%8F%E9%92%B1/</link>
+      <pubDate>Sat, 30 May 2015 02:52:49 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/05/30/%E7%9F%A5%E4%B9%8E%E9%97%AE%E7%AD%94%E8%82%A1%E7%A5%A8%E8%BF%99%E4%B9%88%E7%81%AB%E6%98%AF%E8%B0%81%E5%9C%A8%E4%BA%8F%E9%92%B1/</guid>
+      <description>股票这么火，是谁在亏钱？ http://www.zhihu.com/question/30663091 （分享自知乎网）</description>
+    </item>
+    
+    <item>
+      <title>解决WordPress所有主题边栏和底部存在重复信息问题</title>
+      <link>https://imxqd.xyz/index.php/2015/05/28/%E8%A7%A3%E5%86%B3wordpress%E6%89%80%E6%9C%89%E4%B8%BB%E9%A2%98%E8%BE%B9%E6%A0%8F%E5%92%8C%E5%BA%95%E9%83%A8%E5%AD%98%E5%9C%A8%E9%87%8D%E5%A4%8D%E4%BF%A1%E6%81%AF%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Thu, 28 May 2015 13:09:38 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2015/05/28/%E8%A7%A3%E5%86%B3wordpress%E6%89%80%E6%9C%89%E4%B8%BB%E9%A2%98%E8%BE%B9%E6%A0%8F%E5%92%8C%E5%BA%95%E9%83%A8%E5%AD%98%E5%9C%A8%E9%87%8D%E5%A4%8D%E4%BF%A1%E6%81%AF%E9%97%AE%E9%A2%98/</guid>
+      <description>最近安装了一个WordPress主题，无意中惊奇地发现在有右边栏的情况下，底部有有右边栏相似的内容，这导致了页面非常难看而且内容重复。
+经过研究，终于解决了这个问题
+首先，在后台点击主题，然后点击编辑，在右侧找到footer.php，如果没有这个文件，那就到它的父模板中找，我的footer.php代码如下：
+ &#39;footer&#39;, &#39;container_div&#39; = &#39;div&#39;, //&#39;nav&#39; or &#39;div&#39; &#39;container_class&#39; = &#39;&#39;, //class for  or  &#39;menu_class&#39; = &#39;list-inline dividers&#39;, //class for  &#39;walker&#39; = new wp_bootstrap_navwalker(), &#39;fallback_cb&#39; = &#39;&#39;, &#39;echo&#39; = false, // we&#39;ll output the menu later &#39;depth&#39; = 1, ) ); // If not, default one } elseif ( $xsbf_theme_options[&#39;sample_footer_menu&#39;] ) { $nav_menu = &#39;  &#39; .__( &#39;Top&#39;, &#39;flat-bootstrap&#39; ) .&#39;  &#39; .</description>
+    </item>
+    
+    <item>
+      <title>自己设计实现文件压缩及解压程序</title>
+      <link>https://imxqd.xyz/index.php/2014/11/15/%E8%87%AA%E5%B7%B1%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E5%8F%8A%E8%A7%A3%E5%8E%8B%E7%A8%8B%E5%BA%8F/</link>
+      <pubDate>Sat, 15 Nov 2014 13:46:37 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/11/15/%E8%87%AA%E5%B7%B1%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E5%8F%8A%E8%A7%A3%E5%8E%8B%E7%A8%8B%E5%BA%8F/</guid>
+      <description>任务定义和问题分析 此问题分为五个过程：
+ 文件的读取和字符的统计。
+  这个是最简单的过程，读取文件，统计每个字符的出现次数。把这些数据统计在高度为1的二叉树中，每一个字符占用一棵树。这些所有树的集合构成一个树的列表（指针）。
+   哈夫曼树的创建。
+  哈夫曼树的创建也是比较简单的，因为在我们学习哈夫曼树定义的时候，就已经给出了哈夫曼树的创建过程，只要按照其过程就能比较好地创建出哈夫曼树了。
+ &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;具体过程为：&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;每次从已有的字符树列表中找出权值最小的两个二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;把它们权值相加产生一个新的高度为1的二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;把新二叉树的左孩子指向之前找到的权值最小的字符所在的二叉树，右孩子指向第二小的二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;然后把新产生的二叉树加入到字符树列表中，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;最后从字符树列表中删除之前找到的权值最小的两棵二叉树（指针）。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;反复循环，直到字符树列表中只剩下一棵二叉树。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;到此，哈夫曼树的创建完成。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;哈夫曼编码。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;哈夫曼树创建完成后，哈夫曼编码也就很简单了。从树根开始，向左记为0，向右记为1,。这里涉及到之前所做过的实验──从根节点到叶子节点的路径。方法基本类似，通过遍历可以很方便地实现。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;文件压缩后的写入文件的方式。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;经过哈夫曼编码的压缩后，一个字符可能由不到8位甚至只有1位的空间来存储。但是，目前大部分语言都没有以位为单位的数据类型。为了解决这个问题，我们需要把二进制字符串按一定长度切割并且转换为标准类型。我采用的是把二进制字符串以32字符的长度进行切割，并把它转换为unsigned long类型，最后如果不足32位，在前面补0然后再转为unsigned long类型。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;文件要想能够解压，就必须要把哈夫曼编码表保存到文件，而且每个字符+编码的长度都要固定。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;开始，我是采用的char + char[]的方式，发现这样比较浪费空间，如果要完全压缩二进制文件，char[]的长度可能需要256，耗费256 + 1个字节（256个char + 1个char），所以是相当废空间。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;于是，我又想了一种相对更好的方法，就是把哈夫曼编码同样转换为unsigned long[]，采用char + unsigned long[] + char的方式。后一个char是用来记录哈夫曼编码的长度，便于哈夫曼编码的再读取。这样，只消耗了32+2个字节（8个unsigned long + 2个char）。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;解压文件。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;只要先读取哈夫曼编码表，再读取文件内容，把文件内容转换为二进制字符串，再遍历二进制字符串，在哈夫曼编码表中寻找，逐个替换，再写入文件即可。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;/ol&amp;gt; &amp;lt;h3&amp;gt; &amp;lt;span style=&amp;quot;font-size: 12pt;&amp;quot;&amp;gt;数据结构的选择和概要设计&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/h3&amp;gt; &amp;lt;p&amp;gt; 为了方便哈夫曼树的创建和哈夫曼编码，特别设计二叉树结构为 &amp;lt;/p&amp;gt; &amp;lt;div&amp;gt; &amp;lt;table style=&amp;quot;border-collapse: collapse;&amp;quot; border=&amp;quot;0&amp;quot;&amp;gt; &amp;lt;colgroup&amp;gt; &amp;lt;col style=&amp;quot;width: 691px;&amp;quot; /&amp;gt;&amp;lt;/colgroup&amp;gt; &amp;lt;tr&amp;gt; &amp;lt;td style=&amp;quot;padding-left: 9px; padding-right: 9px; border: solid 0.</description>
+    </item>
+    
+    <item>
+      <title>多么痛的领悟！——我的2013拾遗总结</title>
+      <link>https://imxqd.xyz/index.php/2014/01/26/%E5%A4%9A%E4%B9%88%E7%97%9B%E7%9A%84%E9%A2%86%E6%82%9F-%E6%88%91%E7%9A%842013%E6%8B%BE%E9%81%97%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Sat, 25 Jan 2014 21:25:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/26/%E5%A4%9A%E4%B9%88%E7%97%9B%E7%9A%84%E9%A2%86%E6%82%9F-%E6%88%91%E7%9A%842013%E6%8B%BE%E9%81%97%E6%80%BB%E7%BB%93/</guid>
+      <description>多么痛的领悟！——我的2013拾遗总结 &amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 2013即将过去，回首走过的一年，是真学生时代终结的一年，是再次步入社会开启IT工作的一年，是从东北跨到南方第一次体会四季如春的一年，最重要的是彻底告别“光棍汉”准备年末见家长论婚事的一年…… &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 一路走来，有过顺畅、有过坎坷；有过喜悦、有过忧伤；有过领悟，有过彷徨…… &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 特将一年中最深刻、最痛彻的领悟总结如下，给自己以勉励，给大家以借鉴，给未来以回忆…… 一、技术方面 1、心稳了，思路才能准 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 做技术不免要耗时间、费脑力，加班是常有的事情。而长时间连续的加班会影响你的思考力。中午、下午晚饭后适当的休息，欣赏楼下风景或者围着楼群走一圈都是不错的选择。当遇到难题绞尽脑汁后仍然未得到满意的答案的时候，多换一种思路或方法去尝试或许会好些，别陷入单个思路思考的误区。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 笔者的几个月的预研工作感触最深就是不要浮躁，哪怕问题再难研究，沉下心来，梳理一下以前的思路为什么不行，回溯到出问题的点，多问几个为什么更有利于定位问题所在。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 心静了，思路才能开阔；心稳了，思路才能准！ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;这点，笔者养成的习惯之一：每天下班前写下日报，包含内容1）当天的工作内容；2）当天遇到的问题；3）第二天的工作计划。这样，晚上回去睡觉会很安心，第二天一早也能很快投入的工作中。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;习惯之二：每天的早上10:00前一个多小时的时间，可以预想下今天工作可能的障碍，可以求助网络罗列出解决该障碍的思路1-3个，最后敲定思路。接下来的上午及下午时间会显得很充沛，只需要把不难的部分弄完，并攻克掉已定思路的难题就ok了。 2、欲速则不达 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 也是笔者预研工作初期，经理给定了一个方向。方向是他的分析认为可能正确的方向。当时的我考虑项目时间紧迫，猛劲就该思路进行研究。殊不知，一个月后等有了些积累后对该方向的正确性有了怀疑？ 对这种新知识、新领域、方向性不确定的预研内容领悟之—— &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第一，先花几天的时间熟悉该新的领域相关知识，读项目组内别人已经分析过的文档，参考该新知识的rfc相关文档，参考领域内大牛的blog等，对概念有所理解，基本做到胸有成竹。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第二，就大方向的正确性进行多几个视角的验证，待验证完毕后以文档（列举证据）的形式提供给经理确认后再去开展研究。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; “学会停下来，才会加速”，说的也是这个道理。 3、碎时间，见差距 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 工作后发现，时间骤减。北上广深都有的通病吧，为了房租少些，住房离公司较远，每天在路上的时间都加起来1.5-2小时。这个时候大家的节奏就变为如下的循环：起床&amp;#8211;坐早班车&amp;#8211;上早班—中午吃饭&amp;休息&amp;#8211;下午班&amp;#8211;下午饭—做晚班车回家—午夜休息&amp;#8211;起床。异常情况还要加上：晚上加班—坐公交或地铁回家。周末的情况不加班或许能break掉循环，不过周一——周五还是要continue的。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 把坐地铁或公交的时间当做碎时间（或暗时间）的话，每个周下来还是有不少的时间。告别常人都用的惯性思维——玩游戏，打盹等。我们可以通过思考技术、非技术的东西来积累自己，精力充沛的话，可以看书。哪怕一天只有几页，要坚信书会看完的。爱因斯坦教导我们“人的差距在于业余时间！”。不觉中，我们积累了自己的厚度，也慢慢会拉开和别人的差距。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 笔者的blog的标题、小标题都基本上是通过碎时间思考，记录在手机上的。待到写博文时，有了线索会一气呵成！笔者利用碎时间读完了《Shell脚本攻略》以及《思考的乐趣》，再次读完了《鸟哥Linux私房菜》。当然虽然是零散的记忆，工作你会发现，快速锁定知识点，快速网上Google、Stackoverflow查询知识盲点所需解决方案的能力很重要！ 4、写博客是责任的体现 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 写博一年来，渐渐觉得已经离不开博客。写博的初衷是一方面是知识的积累，另一方面是为了找工作。但是，时间久了，发现写博的好处非同凡响，自己梳理思路、收获知识的同时也能给别人带去帮助，并且是持久性的。为什么说是责任的体现呢？一旦你的思路、总结发表了blog，就需要接受大家的监督，大家发现错误你要及时纠正，大家提问问题你要及时回复。这种良性的互动无疑也是提升自我，更是赢得大家信任的好的方式，所以更深层次来讲，是责任的体现。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 写好博客十分不容易！笔者认为，写博客从标题、内容、段落结构到结尾都要讲究！ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第一：标题内容能真实反映内容，不做“标题党”哗众取宠、华而不实，也不要碎碎念，“屁大点事儿”也写上。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第二：技术的总结，就像给别人讲清楚一个概念，还是那句话“一个问题，如果你不能给别人讲明白，十有八九是你自己还没懂”，所以一定要自己非常明白，再理清思路，段落&amp;#26684;式明细分好，这样的博客大家才会感觉很调理或至少不乱。当然，正如论坛所说“no
+picture， you say a j8!”,有图有真相的经验分享大家会很喜欢。举例来说：Windows服务器或者Samba服务器的配置，有图你会看着很容易上手。而编程语言，要技术原理细节阐述和源码展示结合会更容易让大家理解。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第三：要及时回复别人对你博客提出的任何问题。这点，经常写博的人基本都能做到。因为，良性的互动才能建立起网络的互信。你对一篇博文非常有兴趣，想就技术细节与博主讨论下，但是近半年没有回复。这种非同步、大延时的沟通大家是接受不了的。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第四：开始写博后，就是一条不归路，不要间断！对自己是技术能力总结、方便查询与回顾；对别人是“授人以渔”，何乐而不为呢？ 5、这样读技术书会更好 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 毕业前夕，看了《Think in C&amp;#43;&amp;#43;》（partII）、《深入理解计算机系统》、IBM工程师的一本C&amp;#43;&amp;#43;的书、《数学之美》、《浪潮之巅》、《李开复自传——世界因你而不同》。观摩了乔帮主生前的视频、雷军的小米1、小米2的发布会、老罗的锤子手机发布会等。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 笔者认为，作为IT人士，对自己从事领域的书籍肯定要深入读，同时对于计算机行业新知识、新领域、新动态也要做必要的了解。我是基本优米网刚发布就注册的，余额宝发布当天就充&amp;#20540;的，锤子手机老罗演讲最找一批通过留链接从官网索要视频观看的，雷军从没做小米就关注的。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;对于纯技术的书籍，工作以后不允许大整块的时间消化书籍，如下的读书方式会更好些： &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第一：略读，花不太长的时间过一遍书籍的章节大致的内容，了解下各个章节的结构； &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第二：精读，就自己工作需要的知识或关心的细节深入研读，并进行标注； &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 第三：形成博文，对自己反复读了几次、网上求证后才弄清楚的概念进行分析，形成笔记，并在梳理后形成博文。为什么形成博文，是因为你的盲点也有可能是大家的盲点。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 纯技术的书籍，有的时候一遍、二遍是读不明白的，也不要灰心，多读几遍加深理解，至少需要的时候更很快找到对应的章节。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 对于技术相关的书籍，基本可以采取快速阅读浏览的形式就可以，必要的点可以网络求证或做笔记。 二、非技术方面 1、学校和社会的大不同 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 从社会到学校到再次回到社会，心中些许感概！从4年前工作过的小县城，到北上求学3年，到南下的大都市再工作。各种繁杂的经历，只能说“冷暖自知”吧！ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 小县城工作单位机构臃肿、人员懒散、工作节奏缓慢，使我选择继续求学。求学的唯一目的是能找个体面的工作，能找回自信的自我，能给家人争口气！所以，在学校，我非常珍惜度过的每一天，知道自由支配时间的难能可贵。再次回到社会，来到自己向往的繁华的大都市，才知道社会的复杂、工作的不易、生活的辛酸！ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 即便感觉第二次求学已经拼劲全力，每天起早贪黑很辛苦！相比于工作后的大城市的节奏、住房与公司两点一线的穿梭，工作的压力、项目的紧迫紧急程度、每天的日报、每周的工作汇报。想想还是学校舒坦、舒适、舒服！ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 又充分印证了那句话，“学校和社会的本质区别是：学校是生活，社会是生存！”。 2、厚积薄发，IT男也有“春”天 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 很高兴自己在求学临近毕业的日子，找到我的人生的另一伴！让我再次坚信：“IT男穷屌丝”也有春天。当我在嘲笑实验室35-36的老师找不到对象，还个性签名鲜亮的写着“追求卓越，幸运将不期而至！”的时候，没想到这份幸运降临到自己身上。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 3年间几乎全部的时间和精力都放到学习、技术积累上，真是无暇问爱情的事。但我们IT人士要坚信，当你有了积累、有了知识的底蕴以后，你会变得相对成熟，你会变得优秀。一旦你优秀了，身上会散发出迷人的气质，你不去找也会有人来找你的！ 3、健康是福 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 开复老师得癌症，给IT人士敲响警钟！一天平均至少10小时对着电脑，不经常运动、饮食不规律在IT人士身上普遍存在。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 无独有偶，2013年11月份报道的年轻男士提升经理的第二天猝死，网络学历图片验证该男士正是我的校友，还是我一个师姐的老乡，不禁捏了一把汗！那连续两个周末，我去爬山了，没敢去上班。四个字“非常害怕”！。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 所以，回头想想，为了自己的明天，为了家人。每周抽出时间适当的运动，哪怕不运动，适当的放松也是非常有益的！ 4、时间、金钱、诚信 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 如果让你将“时间、金钱、诚信”排个次序的话，你会如何选择？我在学校和走入社会后，都会把诚信放在第一位的。我的信条“有了诚信，你可以充分你的时间去赚更多的钱！” &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 工作了要考虑近几年的结婚和买房，不免要存点积蓄，积累积蓄又和交租房、同事同学间的应酬矛盾，但当花则花，不要浪费是条宗旨！因为钱而伤了感情不好，但是因为感情好而不谈钱自己会吃亏。因为我们已经工作，我是坚信“工作了就只能给家人钱，不能给家人要一分钱，哪怕你失业了，因为你毕业了！”。 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;诚信的问题逐渐在现代人中缺失不能不说是一种悲哀！马云先生建立淘宝、支付宝的初衷就是相信未来的人们间的信任会更好。时下的现代人被喧杂的社会所侵蚀，我只能说他们变了，但至少我还会保存“那份真”！ 5、勇于承担责任 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 《赢在中国之蓝天碧水间》的每一期看下来，总结如下“真诚、不装，勇于承担责任，痛定思痛的绝地反击！”。毕业了，马上奔30的人了，对自己要有责任，对父母要有沉甸甸的孝敬的责任，对妹妹的付出也到了回报负责的时候，对未来媳妇更是要百分百负责。这是所有男士必备的，IT男也不例外！ 6、相信未来 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 不管怎么样，还是要相信未来。也是马云的教导“今天很残酷、明天很残酷，但后天很美好，很多人死在明天晚上，看不到后天初升的太阳！”。所以，要活过明天，看到后天的美好！ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 工作的时候，会有压力，因为知识储备的不充分、业务不熟悉、经验不充分等会走弯路，但这些不应该成为前进道路上的“绊脚石”，而是撑起你“站得更高、看得更远”的基石！想到我们的工作能给用户带来方便、给客户提升价&amp;#20540;、间接地推动了社会的发展，我们IT人还是很伟大的！ 三、结语 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 写到这，今年的年终总结也接近尾声。我自己是信心满满，我也这么鼓励着我的媳妇，不知道你的感觉是什么？ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;写下奋斗不如付诸行动，未来就在前方！收拾行囊，信心百倍的征战充满挑战的2014吧！ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2013-12-21&amp;nbsp;10:00——15:19终稿于家中床前，十余次更改稿件，终于定稿！ &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</description>
+    </item>
+    
+    <item>
+      <title>hdoj1009解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/25/hdoj1009%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 25 Jan 2014 06:08:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/25/hdoj1009%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  FatMouse prepared M pounds of cat food, ready to trade with the cats guarding the warehouse containing his favorite food, JavaBean.
+The warehouse has N rooms. The i-th room contains J[i] pounds of JavaBeans and requires F[i] pounds of cat food. FatMouse does not have to trade for all the JavaBeans in the room, instead, he may get J[i]* a% pounds of JavaBeans if he pays F[i]* a% pounds of</description>
+    </item>
+    
+    <item>
+      <title>hdoj2012解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/25/hdoj2012%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 25 Jan 2014 05:55:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/25/hdoj2012%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  对于表达式n^2&amp;#43;n&amp;#43;41，当n在（x,y）范围内取整数&amp;#20540;时（包括x,y）(-39&amp;nbsp;  Input  输入数据有多组，每组占一行，由两个整数x，y组成，当x=0,y=0时，表示输入结束，该行不做处理。  &amp;nbsp;  Output  对于每个给定范围内的取&amp;#20540;，如果表达式的&amp;#20540;都为素数，则输出&#34;OK&#34;,否则请输出“Sorry”,每组输出占一行。  &amp;nbsp;   #include  bool isprime(int n) { for (int i = 2; i  </description>
+    </item>
+    
+    <item>
+      <title>hdoj2011解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/25/hdoj2011%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 25 Jan 2014 05:34:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/25/hdoj2011%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  多项式的描述如下：
+1 &amp;#8211; 1/2 &amp;#43; 1/3 &amp;#8211; 1/4 &amp;#43; 1/5 &amp;#8211; 1/6 &amp;#43; &amp;#8230;
+现在请你求出该多项式的前n项的和。  &amp;nbsp;  Input  输入数据由2行组成，首先是一个正整数m（m&amp;nbsp;  Output  对于每个测试实例n，要求输出多项式前n项的和。每个测试实例的输出占一行，结果保留2位小数。  &amp;nbsp;   #include  int main() { int m; scanf(&#34;%d&#34;, &amp;m); while (m--) { int n; scanf(&#34;%d&#34;, &amp;n); double res = 0; int tmp = -1; for (int i = 1; i  </description>
+    </item>
+    
+    <item>
+      <title>hdoj2010解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/25/hdoj2010%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 25 Jan 2014 05:21:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/25/hdoj2010%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  春天是鲜花的季节，水仙花就是其中最迷人的代表，数学上有个水仙花数，他是这样定义的：
+“水仙花数”是指一个三位数，它的各位数字的立方和等于其本身，比如：153=1^3&amp;#43;5^3&amp;#43;3^3。
+现在要求输出所有在m和n范围内的水仙花数。  &amp;nbsp;  Input  输入数据有多组，每组占一行，包括两个整数m和n（100&amp;nbsp;  Output  对于每个测试实例，要求输出所有在给定范围内的水仙花数，就是说，输出的水仙花数必须大于等于m,并且小于等于n，如果有多个，则要求从小到大排列在一行内输出，之间用一个空&amp;#26684;隔开;
+如果给定的范围内不存在水仙花数，则输出no;
+每个测试实例的输出占一行。  &amp;nbsp;   #include  bool issxh(int n) { int sum = 0; int m = n; while (n  0) { int tmp = n % 10; sum += tmp * tmp * tmp; n /= 10; } return (sum == m); } int main() { int x, y; while (scanf(&#34;</description>
+    </item>
+    
+    <item>
+      <title>hdoj2009解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/21/hdoj2009%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Tue, 21 Jan 2014 05:42:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/21/hdoj2009%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  数列的定义如下：
+数列的第一项为n，以后各项为前一项的平方根，求数列的前m项的和。  &amp;nbsp;  Input  输入数据有多组，每组占一行，由两个整数n（n&amp;nbsp;  Output  对于每组输入数据，输出该数列的和，每个测试实例占一行，要求精度保留2位小数。  &amp;nbsp;   #include &amp;lt;cstdio&amp;gt; #include &amp;lt;cmath&amp;gt; intmain() {int n, m;while(scanf(&#34;%d %d&#34;, &amp;n, &amp;m) != EOF) {double res=0;double x= n;for(int i=0; i&amp;lt; m; i&amp;#43;&amp;#43;) { res&amp;#43;= x; x= sqrt(x); } printf(&#34;%.2lfn&#34;, res); }return0; }   </description>
+    </item>
+    
+    <item>
+      <title>hdoj2008解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/21/hdoj2008%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Tue, 21 Jan 2014 05:40:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/21/hdoj2008%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  统计给定的n个数中，负数、零和正数的个数。  &amp;nbsp;  Input  输入数据有多组，每组占一行，每行的第一个数是整数n（n&amp;nbsp;  Output  对于每组输入数据，输出一行a,b和c，分别表示给定的数据中负数、零和正数的个数。  &amp;nbsp;   #include  #include  int main() { int n, m; while (scanf(&#34;%d %d&#34;, &amp;n, &amp;m) != EOF) { double res = 0; double x = n; for (int i = 0; i  </description>
+    </item>
+    
+    <item>
+      <title>hdoj2007解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/21/hdoj2007%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Tue, 21 Jan 2014 05:38:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/21/hdoj2007%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  给定一段连续的整数，求出他们中所有偶数的平方和以及所有奇数的立方和。  &amp;nbsp;  Input  输入数据包含多组测试实例，每组测试实例包含一行，由两个整数m和n组成。  &amp;nbsp;  Output  对于每组输入数据，输出一行，应包括两个整数x和y，分别表示该段连续的整数中所有偶数的平方和以及所有奇数的立方和。
+你可以认为32位整数足以保存结果。  &amp;nbsp;   #include  int main() { while (true) { int n; scanf(&#34;%d&#34;, &amp;n); if (n == 0)break; int z = 0, f = 0, l = 0; for (int i = 0; i 0) z++; else if (x  </description>
+    </item>
+    
+    <item>
+      <title>hdoj2006解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/18/hdoj2006%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 18 Jan 2014 06:27:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/18/hdoj2006%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  给你n个整数，求他们中所有奇数的乘积。  &amp;nbsp;  Input  输入数据包含多个测试实例，每个测试实例占一行，每行的第一个数为n，表示本组数据一共有n个，接着是n个整数，你可以假设每组数据必定至少存在一个奇数。  &amp;nbsp;  Output  输出每组数中的所有奇数的乘积，对于测试实例，输出一行。  &amp;nbsp;   废话不说,上代码:   #include  int main() { int n; while (scanf(&#34;%d&#34;, &amp;n) != EOF) { int res = 1; for (int i = 0; i  </description>
+    </item>
+    
+    <item>
+      <title>hdoj2005解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/18/hdoj2005%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 18 Jan 2014 06:25:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/18/hdoj2005%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  给定一个日期，输出这个日期是该年的第几天。  &amp;nbsp;  Input  输入数据有多组，每组占一行，数据&amp;#26684;式为YYYY/MM/DD组成，具体参见sample input ,另外，可以向你确保所有的输入数据是合法的。  &amp;nbsp;  Output  对于每组输入数据，输出一行，表示该日期是该年的第几天。  &amp;nbsp;   首先要知道该年是不是闰年,然后再计算   代码:   #include  int main() { int y, m, d; while (scanf(&#34;%d/%d/%d&#34;, &amp;y, &amp;m, &amp;d) != EOF) { int day[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; if ((y % 4 == 0 &amp;&amp; y % 100 !</description>
+    </item>
+    
+    <item>
+      <title>hdoj2004解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/18/hdoj2004%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 18 Jan 2014 06:23:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/18/hdoj2004%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  输入一个百分制的成绩t，将其转换成对应的等级，具体转换规则如下：
+90~100为A;
+80~89为B;
+70~79为C;
+60~69为D;
+0~59为E;  &amp;nbsp;  Input  输入数据有多组，每组占一行，由一个整数组成。  &amp;nbsp;  Output  对于每组输入数据，输出一行。如果输入数据不在0~100范围内，请输出一行：“Score is error!”。  &amp;nbsp;   #include 
+int main()
+{
+&amp;nbsp; &amp;nbsp; int x;
+&amp;nbsp; &amp;nbsp; while (scanf(&#34;%d&#34;, &amp;x) != EOF)
+&amp;nbsp; &amp;nbsp; {
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; if (x = 0 &amp;&amp; x = 60 &amp;&amp; x = 70 &amp;&amp; x = 80 &amp;&amp; x = 90 &amp;&amp; x return 0;</description>
+    </item>
+    
+    <item>
+      <title>hdoj2003解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/18/hdoj2003%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 18 Jan 2014 06:22:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/18/hdoj2003%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  求实数的绝对&amp;#20540;。  &amp;nbsp;  Input  输入数据有多组，每组占一行，每行包含一个实数。  &amp;nbsp;  Output  对于每组输入数据，输出它的绝对&amp;#20540;，要求每组数据输出一行，结果保留两位小数。  &amp;nbsp;   #include 
+int main()
+{
+&amp;nbsp; &amp;nbsp; double x;
+&amp;nbsp; &amp;nbsp; while (scanf(&#34;%lf&#34;, &amp;x) != EOF)
+&amp;nbsp; &amp;nbsp; {
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; x = x  0 ? x : -x;
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; printf(&#34;%.2lfn&#34;, x);
+ &amp;nbsp; &amp;nbsp; }
+return 0;
+}  </description>
+    </item>
+    
+    <item>
+      <title>安装Ubuntu后,图形界面下修改Windows的为默认操作系统,并且更新Ubuntu后不变</title>
+      <link>https://imxqd.xyz/index.php/2014/01/15/%E5%AE%89%E8%A3%85ubuntu%E5%90%8E%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B8%8B%E4%BF%AE%E6%94%B9windows%E7%9A%84%E4%B8%BA%E9%BB%98%E8%AE%A4%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%B9%B6%E4%B8%94/</link>
+      <pubDate>Wed, 15 Jan 2014 05:15:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/15/%E5%AE%89%E8%A3%85ubuntu%E5%90%8E%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B8%8B%E4%BF%AE%E6%94%B9windows%E7%9A%84%E4%B8%BA%E9%BB%98%E8%AE%A4%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%B9%B6%E4%B8%94/</guid>
+      <description>操作:
+在Ubuntu下Alt &amp;#43; Ctrl &amp;#43; T打开终端,输入
+sudo nautilus
+这时,文件管理器会打开
+进入 /etc/grub.d 目录
+把
+30_os-prober
+改为
+06_os-prober
+然后打开终端,输入
+sudo update-grub
+然后&amp;#8230;..然后&amp;#8230;..然后就修改成功了,简单吧</description>
+    </item>
+    
+    <item>
+      <title>嘿嘿,碰到了坑爹的题</title>
+      <link>https://imxqd.xyz/index.php/2014/01/15/%E5%98%BF%E5%98%BF%E7%A2%B0%E5%88%B0%E4%BA%86%E5%9D%91%E7%88%B9%E7%9A%84%E9%A2%98/</link>
+      <pubDate>Wed, 15 Jan 2014 05:01:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/15/%E5%98%BF%E5%98%BF%E7%A2%B0%E5%88%B0%E4%BA%86%E5%9D%91%E7%88%B9%E7%9A%84%E9%A2%98/</guid>
+      <description>Problem Description  Give you two numbers A and B, if A is equal to B, you should print &#34;YES&#34;, or print &#34;NO&#34;.  &amp;nbsp;  Input  each test case contains two numbers A and B.  &amp;nbsp;  Output  for each case, if A is equal to B, you should print &#34;YES&#34;, or print &#34;NO&#34;.  &amp;nbsp;  Sample Input  1 2 2 2 3 3 4 3</description>
+    </item>
+    
+    <item>
+      <title>hdoj2002解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/15/hdoj2002%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Wed, 15 Jan 2014 04:29:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/15/hdoj2002%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  根据输入的半径&amp;#20540;，计算球的体积。  &amp;nbsp;  Input  输入数据有多组，每组占一行，每行包括一个实数，表示球的半径。  &amp;nbsp;  Output  输出对应的球的体积，对于每组输入数据，输出一行，计算结果保留三位小数。  #include  int main() { const double PI = 3.1415927; double r; while (scanf(&#34;%lf&#34;, &amp;r) != EOF) { double v = 4 * PI * r * r * r / 3; printf(&#34;%.3lfn&#34;, v); } return 0; }   </description>
+    </item>
+    
+    <item>
+      <title>hdoj2001解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/15/hdoj2001%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Wed, 15 Jan 2014 04:19:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/15/hdoj2001%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>Problem Description  输入两点坐标（X1,Y1）,（X2,Y2）,计算并输出两点间的距离。  &amp;nbsp;  Input  输入数据有多组，每组占一行，由4个实数组成，分别表示x1,y1,x2,y2,数据之间用空&amp;#26684;隔开。  &amp;nbsp;  Output  对于每组输入数据，输出一行，结果保留两位小数。  #include  #include  int main() { double a, b, x, y; while (scanf(&#34;%lf %lf %lf %lf&#34;, &amp;a, &amp;b, &amp;x, &amp;y) != EOF) { double l = sqrt((a - x) * (a - x) + (b - y) * (b - y)); printf(&#34;%.2lfn&#34;, l); } return 0; }   </description>
+    </item>
+    
+    <item>
+      <title>hdoj1002解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/15/hdoj1002%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Wed, 15 Jan 2014 04:10:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/15/hdoj1002%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>题意:两个大数相加,按要求输出 代码如下:(未通过,但自己觉得算法正确,自测数据正常) #include  #include  using namespace std; int main() { int t; cin  t; for (int m = 1; m  a  b; char ta[1000] = { 0 }, tb[1000] = { 0 }, sum[1001] = { 0 }; int la = strlen(a); int lb = strlen(b); for (int i = la - 1, j = 999; i = 0; i--, j--) ta[j] = a[i] - &#39;0&#39;; //复制并对齐到最后并转换成数字,方便计算 for (int i = lb - 1, j = 999; i = 0; i--, j--) tb[j] = b[i] - &#39;0&#39;; //同上 int pos = 0; int i = 999; do { int tmp = ta[i] + tb[i] + pos; pos = tmp / 10; sum[i + 1] = tmp % 10 + &#39;0&#39;; i--; } while (ta[i + 1] !</description>
+    </item>
+    
+    <item>
+      <title>hdoj1049解题报告</title>
+      <link>https://imxqd.xyz/index.php/2014/01/13/hdoj1049%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sun, 12 Jan 2014 23:18:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/13/hdoj1049%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>题意:1个长1英寸的虫子要从高n英寸的洞里爬出来,每分钟爬u英寸,但每爬一分钟需要休息一分钟,它会下滑d英寸,问它多长时间爬出来
+分析:相当于每两分钟爬u &amp;#8211; d英寸, 但最后一次是直接爬上去的,不会下滑,这是一种方法,我用的是直接模拟这个过程的方法.
+代码如下:
+#include  using namespace std; int main() { int n, u, d; while (cin  n  u  d) { if (n == 0)break; int t; int l = 0; for (t = 1; l </description>
+    </item>
+    
+    <item>
+      <title>hdoj1008解题报告</title>
+      <link>https://imxqd.xyz/index.php/2013/12/22/hdoj1008%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 21 Dec 2013 21:25:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2013/12/22/hdoj1008%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>题意:
+坐电梯,上一层楼需要6秒,下一层楼需要4秒,在每一层会停留5秒,电梯开始在0层,输入要去的各个层,输出所需要的时间
+#include  using namespace std; int main() { int n; int step[101] = {0}; while (true) { cin  n; if (!n)break; int time = 0; step[0] = 0; for (int i = 1; i  step[i]; for (int i = 1; i step[i - 1]) { time += 6 \* (step[i] - step[i - 1]); } else { time += 4 \* (step[i - 1] - step[i]); } } time += n * 5; cout </description>
+    </item>
+    
+    <item>
+      <title>hdoj1005解题报告</title>
+      <link>https://imxqd.xyz/index.php/2013/12/22/hdoj1005%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 21 Dec 2013 21:21:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2013/12/22/hdoj1005%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>题意:
+f(1) = 1, f(2) = 1,&amp;nbsp;
+f(n) = (A * f(n &amp;#8211; 1) &amp;#43; B * f(n &amp;#8211; 2)) mod 7.
+输入A,B和n,输出f(n);
+#include  using namespace std; int main() { int f[1010]; int A, B; int64_t n; while (cin) { f[1] = 1, f[2] = 1; cin &amp;gt;&amp;gt; A &amp;gt;&amp;gt; B &amp;gt;&amp;gt; n; if ( A == 0 &amp;amp;&amp;amp; B == 0 &amp;amp;&amp;amp; n == 0)break; int i; for (i = 3; i &amp;lt;= n; i++) { f[i] = (A * f[i - 1] + B * f[i - 2]) % 7; for(int j=2;j</description>
+    </item>
+    
+    <item>
+      <title>hdoj1004解题报告</title>
+      <link>https://imxqd.xyz/index.php/2013/12/22/hdoj1004%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 21 Dec 2013 21:17:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2013/12/22/hdoj1004%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>题意:输入各种颜色的气球,输出气球数量最多的气球的颜色
+#include  #include  using namespace std; int main() { int n; char ball\[1001\]\[40\]; while (true) { cin  n; if (n == 0)break; int count[1001] = {0}; for (int i = 0; i  ball[i]; } for (int i = 0; i max) { max = count[i]; pos = i; } } cout </description>
+    </item>
+    
+    <item>
+      <title>hdoj1000解题报告</title>
+      <link>https://imxqd.xyz/index.php/2013/12/22/hdoj1000%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 21 Dec 2013 21:13:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2013/12/22/hdoj1000%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>题意:计算A+B  #include  int main() { int a, b; while (scanf(&#34;%d%d&#34;, &amp;a, &amp;b) != EOF) { printf(&#34;%dn&#34;, a + b); } } </description>
+    </item>
+    
+    <item>
+      <title>hdoj1001解题报告</title>
+      <link>https://imxqd.xyz/index.php/2013/12/22/hdoj1001%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</link>
+      <pubDate>Sat, 21 Dec 2013 21:08:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2013/12/22/hdoj1001%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/</guid>
+      <description>第一次写解题报告,找了个最简单的.
+题意:输入一个数n,输出从1&amp;#43;2&amp;#43;3&amp;#43;&amp;#8230;&amp;#43;n.
+没什么好说的
+#include  int main() { int n; while (scanf(&#34;%d&#34;, &amp;n) != EOF) { int sum = 0; for (int i = 1; i </description>
+    </item>
+    
+  </channel>
+</rss>

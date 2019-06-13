@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on imxqd.xyz</title>
+    <link>https://imxqd.xyz/categories/linux/</link>
+    <description>Recent content in Linux on imxqd.xyz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 15 Jan 2014 05:15:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://imxqd.xyz/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>安装Ubuntu后,图形界面下修改Windows的为默认操作系统,并且更新Ubuntu后不变</title>
+      <link>https://imxqd.xyz/index.php/2014/01/15/%E5%AE%89%E8%A3%85ubuntu%E5%90%8E%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B8%8B%E4%BF%AE%E6%94%B9windows%E7%9A%84%E4%B8%BA%E9%BB%98%E8%AE%A4%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%B9%B6%E4%B8%94/</link>
+      <pubDate>Wed, 15 Jan 2014 05:15:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/index.php/2014/01/15/%E5%AE%89%E8%A3%85ubuntu%E5%90%8E%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E4%B8%8B%E4%BF%AE%E6%94%B9windows%E7%9A%84%E4%B8%BA%E9%BB%98%E8%AE%A4%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%B9%B6%E4%B8%94/</guid>
+      <description>操作:
+在Ubuntu下Alt &amp;#43; Ctrl &amp;#43; T打开终端,输入
+sudo nautilus
+这时,文件管理器会打开
+进入 /etc/grub.d 目录
+把
+30_os-prober
+改为
+06_os-prober
+然后打开终端,输入
+sudo update-grub
+然后&amp;#8230;..然后&amp;#8230;..然后就修改成功了,简单吧</description>
+    </item>
+    
+  </channel>
+</rss>

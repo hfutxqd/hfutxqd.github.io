@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>[Android]多Fragment下，横竖屏切换恢复界面问题</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="imxqd">
+  <meta name="description" content="Android手机在横竖屏切换时，会调用当前Activity的onDestroy的方法来结束当前Activity实例，然后再重新创建一个新的Activity的实例，这造成了横竖屏切换相当于关闭应用重新打开了，fragment被重置到了默认的（第一个）了，我们该怎么办呢？
+很容易想到，我们在系统结束当前Activity实例的时候，保存下当前的fragment，于是我们想到了，重写onDestroy()的方法。
+我采用的是如下的方法
+定义一个静态的Fragment对象
+static Fragment curr_fragment = null;
+新建一个方法
+private void changeCurrFragment(Fragment fragment)&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; curr_fragment = fragment;&amp;lt;br /&amp;gt; FragmentManager fragmentManager = getFragmentManager();&amp;lt;br /&amp;gt; fragmentManager&amp;lt;br /&amp;gt; .beginTransaction()&amp;lt;br /&amp;gt; .replace(R.id.container, curr_fragment)&amp;lt;br /&amp;gt; .commit();&amp;lt;br /&amp;gt; }&amp;lt;br /&amp;gt; 
+在以后切换fragment的时候，都调用这个方法,这样可以实现不用重写onDestroy()就保存了当前fragment
+在onCreate（）方法中初始化视图时，判断curr_fragment是否为null，如果为null则新建一个fragment实例，然后调用changeCurrFragment方法。
+这样做看起来貌似是可以了。。。
+但是！！！！
+注意想一想Fragment的生命周期，Fragment随着Activity的消亡而消亡，所以这样是不可以的！！
+你们可以试一试，这样横竖屏切换后将是空白
+可以增加这样一个方法
+&amp;lt;br /&amp;gt; private void recreateFragment()&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; if(curr_fragment != null)&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; System.out.println(curr_fragment.getClass().getSimpleName());&amp;lt;/p&amp;gt; &amp;lt;p&amp;gt; switch (curr_fragment.getClass().getSimpleName())&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; case &amp;quot;Fragment1&amp;quot;:&amp;lt;br /&amp;gt; curr_fragment = Fragment1.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="[Android]多Fragment下，横竖屏切换恢复界面问题">
+    <meta name="twitter:description" content="Android手机在横竖屏切换时，会调用当前Activity的onDestroy的方法来结束当前Activity实例，然后再重新创建一个新的Activity的实例，这造成了横竖屏切换相当于关闭应用重新打开了，fragment被重置到了默认的（第一个）了，我们该怎么办呢？
+很容易想到，我们在系统结束当前Activity实例的时候，保存下当前的fragment，于是我们想到了，重写onDestroy()的方法。
+我采用的是如下的方法
+定义一个静态的Fragment对象
+static Fragment curr_fragment = null;
+新建一个方法
+private void changeCurrFragment(Fragment fragment)&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; curr_fragment = fragment;&amp;lt;br /&amp;gt; FragmentManager fragmentManager = getFragmentManager();&amp;lt;br /&amp;gt; fragmentManager&amp;lt;br /&amp;gt; .beginTransaction()&amp;lt;br /&amp;gt; .replace(R.id.container, curr_fragment)&amp;lt;br /&amp;gt; .commit();&amp;lt;br /&amp;gt; }&amp;lt;br /&amp;gt; 
+在以后切换fragment的时候，都调用这个方法,这样可以实现不用重写onDestroy()就保存了当前fragment
+在onCreate（）方法中初始化视图时，判断curr_fragment是否为null，如果为null则新建一个fragment实例，然后调用changeCurrFragment方法。
+这样做看起来貌似是可以了。。。
+但是！！！！
+注意想一想Fragment的生命周期，Fragment随着Activity的消亡而消亡，所以这样是不可以的！！
+你们可以试一试，这样横竖屏切换后将是空白
+可以增加这样一个方法
+&amp;lt;br /&amp;gt; private void recreateFragment()&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; if(curr_fragment != null)&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; System.out.println(curr_fragment.getClass().getSimpleName());&amp;lt;/p&amp;gt; &amp;lt;p&amp;gt; switch (curr_fragment.getClass().getSimpleName())&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; case &amp;quot;Fragment1&amp;quot;:&amp;lt;br /&amp;gt; curr_fragment = Fragment1.">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="[Android]多Fragment下，横竖屏切换恢复界面问题">
+  <meta property="og:description" content="Android手机在横竖屏切换时，会调用当前Activity的onDestroy的方法来结束当前Activity实例，然后再重新创建一个新的Activity的实例，这造成了横竖屏切换相当于关闭应用重新打开了，fragment被重置到了默认的（第一个）了，我们该怎么办呢？
+很容易想到，我们在系统结束当前Activity实例的时候，保存下当前的fragment，于是我们想到了，重写onDestroy()的方法。
+我采用的是如下的方法
+定义一个静态的Fragment对象
+static Fragment curr_fragment = null;
+新建一个方法
+private void changeCurrFragment(Fragment fragment)&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; curr_fragment = fragment;&amp;lt;br /&amp;gt; FragmentManager fragmentManager = getFragmentManager();&amp;lt;br /&amp;gt; fragmentManager&amp;lt;br /&amp;gt; .beginTransaction()&amp;lt;br /&amp;gt; .replace(R.id.container, curr_fragment)&amp;lt;br /&amp;gt; .commit();&amp;lt;br /&amp;gt; }&amp;lt;br /&amp;gt; 
+在以后切换fragment的时候，都调用这个方法,这样可以实现不用重写onDestroy()就保存了当前fragment
+在onCreate（）方法中初始化视图时，判断curr_fragment是否为null，如果为null则新建一个fragment实例，然后调用changeCurrFragment方法。
+这样做看起来貌似是可以了。。。
+但是！！！！
+注意想一想Fragment的生命周期，Fragment随着Activity的消亡而消亡，所以这样是不可以的！！
+你们可以试一试，这样横竖屏切换后将是空白
+可以增加这样一个方法
+&amp;lt;br /&amp;gt; private void recreateFragment()&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; if(curr_fragment != null)&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; System.out.println(curr_fragment.getClass().getSimpleName());&amp;lt;/p&amp;gt; &amp;lt;p&amp;gt; switch (curr_fragment.getClass().getSimpleName())&amp;lt;br /&amp;gt; {&amp;lt;br /&amp;gt; case &amp;quot;Fragment1&amp;quot;:&amp;lt;br /&amp;gt; curr_fragment = Fragment1.">
+  <meta property="og:url" content="https://imxqd.xyz/index.php/2015/06/28/android%E5%A4%9Afragment%E4%B8%8B%E6%A8%AA%E7%AB%96%E5%B1%8F%E5%88%87%E6%8D%A2%E6%81%A2%E5%A4%8D%E7%95%8C%E9%9D%A2%E9%97%AE%E9%A2%98/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="https://imxqd.xyz/index.php/2015/06/28/android%E5%A4%9Afragment%E4%B8%8B%E6%A8%AA%E7%AB%96%E5%B1%8F%E5%88%87%E6%8D%A2%E6%81%A2%E5%A4%8D%E7%95%8C%E9%9D%A2%E9%97%AE%E9%A2%98/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="imxqd.xyz">
+<meta name="msapplication-tooltip" content="imxqd.xyz">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="https://imxqd.xyz/"><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="https://imxqd.xyz/">imxqd.xyz</a></h2>
+  
+  <p class="subtitle"></p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">[Android]多Fragment下，横竖屏切换恢复界面问题</h1>
+      <p class="post-meta">@imxqd · Jun 28, 2015 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>Android手机在横竖屏切换时，会调用当前Activity的onDestroy的方法来结束当前Activity实例，然后再重新创建一个新的Activity的实例，这造成了横竖屏切换相当于关闭应用重新打开了，fragment被重置到了默认的（第一个）了，我们该怎么办呢？</p>
+
+<p>很容易想到，我们在系统结束当前Activity实例的时候，保存下当前的fragment，于是我们想到了，重写onDestroy()的方法。</p>
+
+<p>我采用的是如下的方法</p>
+
+<p>定义一个静态的Fragment对象</p>
+
+<p><code>static Fragment curr_fragment = null;</code></p>
+
+<p>新建一个方法</p>
+
+<p><code>private void changeCurrFragment(Fragment fragment)&lt;br /&gt;
+    {&lt;br /&gt;
+        curr_fragment = fragment;&lt;br /&gt;
+        FragmentManager fragmentManager = getFragmentManager();&lt;br /&gt;
+        fragmentManager&lt;br /&gt;
+                .beginTransaction()&lt;br /&gt;
+                .replace(R.id.container, curr_fragment)&lt;br /&gt;
+                .commit();&lt;br /&gt;
+    }&lt;br /&gt;
+</code></p>
+
+<p>在以后切换fragment的时候，都调用这个方法,这样可以实现不用重写onDestroy()就保存了当前fragment</p>
+
+<p>在onCreate（）方法中初始化视图时，判断curr_fragment是否为null，如果为null则新建一个fragment实例，然后调用changeCurrFragment方法。</p>
+
+<p>这样做看起来貌似是可以了。。。</p>
+
+<p>但是！！！！</p>
+
+<p>注意想一想Fragment的生命周期，Fragment随着Activity的消亡而消亡，所以这样是不可以的！！</p>
+
+<p>你们可以试一试，这样横竖屏切换后将是空白</p>
+
+<p>可以增加这样一个方法</p>
+
+<p><code>&lt;br /&gt;
+private void recreateFragment()&lt;br /&gt;
+    {&lt;br /&gt;
+        if(curr_fragment != null)&lt;br /&gt;
+        {&lt;br /&gt;
+            System.out.println(curr_fragment.getClass().getSimpleName());&lt;/p&gt;
+&lt;p&gt;            switch (curr_fragment.getClass().getSimpleName())&lt;br /&gt;
+            {&lt;br /&gt;
+                case &quot;Fragment1&quot;:&lt;br /&gt;
+                    curr_fragment = Fragment1.newInstance();&lt;br /&gt;
+                    break;&lt;br /&gt;
+                case &quot;Fragment2&quot;:&lt;br /&gt;
+                    curr_fragment = Fragment2.newInstance();&lt;br /&gt;
+                    break;&lt;br /&gt;
+                case &quot;Fragment3&quot;:&lt;br /&gt;
+                    curr_fragment = Fragment3.newInstance();;&lt;br /&gt;
+                    break;&lt;br /&gt;
+            }&lt;br /&gt;
+            System.gc();&lt;br /&gt;
+        }&lt;br /&gt;
+    }</code></p>
+
+<p>在onCreate（）方法中初始化视图时，判断curr_fragment是否为null，如果不为null则调用recreateFragment()</p>
+
+<p>这样做就可以完成工作，但是并不是很好，频繁切换横竖屏时，会频繁的产生新的fragment实例，如果这个fragment实例比较大的会，可能会产生Out Of Memory的错误，所以在上面的方法中调用了System.gc()去通知垃圾回收器去回收垃圾。</p>
+
+<p>还有一些比较好的方法，由于我要去吃饭了，就不细说了。。。。</p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        This post was published <strong>1446</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 imxqd.xyz</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

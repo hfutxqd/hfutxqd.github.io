@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>[Android]SQLite函数大全</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="imxqd">
+  <meta name="description" content="abs(X) 返回参数X的绝对值
+coalesce(X,Y,……) 返回第一个非空参数的副本。若所有的参数均为NULL，返回NULL。至少2个参数。
+ifnull(X,Y) 返回第一个非空参数的副本。若两个参数均为NULL，返回NULL。
+last_insert_rowid() 返回当前数据库连接最后插入行的RowID。
+length(X) 返回X的长度，以字符计。
+lower(X) 返回X字符串的所有字符小写化版本。
+max(X,Y) 返回最大值。
+nullif(X,Y) 当两参数不同时返回X，否则返回NULL。
+quote(X) 返回参数的适于插入其他SQL语句中的值。字符串会被添加单引号。
+random(*) 返回介于-231和231之间的随机整数。
+round(X)或round(X,Y) 将X四舍五入，保留小数点后Y位。若忽略Y参数，则默认其为0。
+sqlite_version(*) 返回所运行的SQLite库的版本号字符串。
+substr(X,Y,Z) 返回输入字符串X中以第Y个字符开始，Z个字符长的子串。X最左端的字符序号为1。若Y为负，则从右至左数起。
+typeof(X) 返回表达式X的类型。
+upper(X) 返回X字符串的所有字符大写化版本。
+在单参数聚集函数中，参数可以加前缀distinct。这时重复参数会被过滤掉，然后才传入到函数中。例如，函数count(distinct X)返回字段X的不重复非空值的个数，而不是字段X的全部非空值。
+avg(X) 返回一组中非空的X的平均值。非数字值作0处理。结果总是一个浮点数。
+count(X) 返回一组中X是非空值的次数。
+count(*) 返回该组中的行数。
+change_count() 返回受上一语句影响的行数。
+max(X) 返回一组中的最大值。
+min(X) 返回一组中的最小值。
+sum(X)和total(X) 返回一组中所有非空值的数字和。若没有非空行，sum()返回null而total()返回0.0。total()的返回值为浮点数，sum()可以为整数。
+date(日期时间字符串，修正符，修正符，……) 返回一个以YYYY-MM-DD为格式的日期。
+time(日期时间字符串，修正符，修正符，……) 返回一个以HH:MM:SS 为格式的日期时间。
+datetime(日期时间字符串，修正符，修正符，……) 返回一个以YYYY-MM-DD HH:MM:SS 为格式的日期时间。
+julianday(日期时间字符串，修正符，修正符，……) 返回一个天数，从格林威治时间公元前4714年11月24号开始算起。
+strftime(日期时间格式，日期时间字符串，修正符，修正符，……) 返回一个经过格式化的日期时间，它可以用以下的符号对日期和时间进行格式化：
+%d 一月中的第几天，01-31
+%f 小数形式的秒，SS.SSSS
+%H 小时，00-24
+%j 一年中的第几天，01-366
+%J Julian Day Numbers">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="[Android]SQLite函数大全">
+    <meta name="twitter:description" content="abs(X) 返回参数X的绝对值
+coalesce(X,Y,……) 返回第一个非空参数的副本。若所有的参数均为NULL，返回NULL。至少2个参数。
+ifnull(X,Y) 返回第一个非空参数的副本。若两个参数均为NULL，返回NULL。
+last_insert_rowid() 返回当前数据库连接最后插入行的RowID。
+length(X) 返回X的长度，以字符计。
+lower(X) 返回X字符串的所有字符小写化版本。
+max(X,Y) 返回最大值。
+nullif(X,Y) 当两参数不同时返回X，否则返回NULL。
+quote(X) 返回参数的适于插入其他SQL语句中的值。字符串会被添加单引号。
+random(*) 返回介于-231和231之间的随机整数。
+round(X)或round(X,Y) 将X四舍五入，保留小数点后Y位。若忽略Y参数，则默认其为0。
+sqlite_version(*) 返回所运行的SQLite库的版本号字符串。
+substr(X,Y,Z) 返回输入字符串X中以第Y个字符开始，Z个字符长的子串。X最左端的字符序号为1。若Y为负，则从右至左数起。
+typeof(X) 返回表达式X的类型。
+upper(X) 返回X字符串的所有字符大写化版本。
+在单参数聚集函数中，参数可以加前缀distinct。这时重复参数会被过滤掉，然后才传入到函数中。例如，函数count(distinct X)返回字段X的不重复非空值的个数，而不是字段X的全部非空值。
+avg(X) 返回一组中非空的X的平均值。非数字值作0处理。结果总是一个浮点数。
+count(X) 返回一组中X是非空值的次数。
+count(*) 返回该组中的行数。
+change_count() 返回受上一语句影响的行数。
+max(X) 返回一组中的最大值。
+min(X) 返回一组中的最小值。
+sum(X)和total(X) 返回一组中所有非空值的数字和。若没有非空行，sum()返回null而total()返回0.0。total()的返回值为浮点数，sum()可以为整数。
+date(日期时间字符串，修正符，修正符，……) 返回一个以YYYY-MM-DD为格式的日期。
+time(日期时间字符串，修正符，修正符，……) 返回一个以HH:MM:SS 为格式的日期时间。
+datetime(日期时间字符串，修正符，修正符，……) 返回一个以YYYY-MM-DD HH:MM:SS 为格式的日期时间。
+julianday(日期时间字符串，修正符，修正符，……) 返回一个天数，从格林威治时间公元前4714年11月24号开始算起。
+strftime(日期时间格式，日期时间字符串，修正符，修正符，……) 返回一个经过格式化的日期时间，它可以用以下的符号对日期和时间进行格式化：
+%d 一月中的第几天，01-31
+%f 小数形式的秒，SS.SSSS
+%H 小时，00-24
+%j 一年中的第几天，01-366
+%J Julian Day Numbers">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="[Android]SQLite函数大全">
+  <meta property="og:description" content="abs(X) 返回参数X的绝对值
+coalesce(X,Y,……) 返回第一个非空参数的副本。若所有的参数均为NULL，返回NULL。至少2个参数。
+ifnull(X,Y) 返回第一个非空参数的副本。若两个参数均为NULL，返回NULL。
+last_insert_rowid() 返回当前数据库连接最后插入行的RowID。
+length(X) 返回X的长度，以字符计。
+lower(X) 返回X字符串的所有字符小写化版本。
+max(X,Y) 返回最大值。
+nullif(X,Y) 当两参数不同时返回X，否则返回NULL。
+quote(X) 返回参数的适于插入其他SQL语句中的值。字符串会被添加单引号。
+random(*) 返回介于-231和231之间的随机整数。
+round(X)或round(X,Y) 将X四舍五入，保留小数点后Y位。若忽略Y参数，则默认其为0。
+sqlite_version(*) 返回所运行的SQLite库的版本号字符串。
+substr(X,Y,Z) 返回输入字符串X中以第Y个字符开始，Z个字符长的子串。X最左端的字符序号为1。若Y为负，则从右至左数起。
+typeof(X) 返回表达式X的类型。
+upper(X) 返回X字符串的所有字符大写化版本。
+在单参数聚集函数中，参数可以加前缀distinct。这时重复参数会被过滤掉，然后才传入到函数中。例如，函数count(distinct X)返回字段X的不重复非空值的个数，而不是字段X的全部非空值。
+avg(X) 返回一组中非空的X的平均值。非数字值作0处理。结果总是一个浮点数。
+count(X) 返回一组中X是非空值的次数。
+count(*) 返回该组中的行数。
+change_count() 返回受上一语句影响的行数。
+max(X) 返回一组中的最大值。
+min(X) 返回一组中的最小值。
+sum(X)和total(X) 返回一组中所有非空值的数字和。若没有非空行，sum()返回null而total()返回0.0。total()的返回值为浮点数，sum()可以为整数。
+date(日期时间字符串，修正符，修正符，……) 返回一个以YYYY-MM-DD为格式的日期。
+time(日期时间字符串，修正符，修正符，……) 返回一个以HH:MM:SS 为格式的日期时间。
+datetime(日期时间字符串，修正符，修正符，……) 返回一个以YYYY-MM-DD HH:MM:SS 为格式的日期时间。
+julianday(日期时间字符串，修正符，修正符，……) 返回一个天数，从格林威治时间公元前4714年11月24号开始算起。
+strftime(日期时间格式，日期时间字符串，修正符，修正符，……) 返回一个经过格式化的日期时间，它可以用以下的符号对日期和时间进行格式化：
+%d 一月中的第几天，01-31
+%f 小数形式的秒，SS.SSSS
+%H 小时，00-24
+%j 一年中的第几天，01-366
+%J Julian Day Numbers">
+  <meta property="og:url" content="https://imxqd.xyz/index.php/2015/06/24/sqlite%E5%87%BD%E6%95%B0%E5%A4%A7%E5%85%A8/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="https://imxqd.xyz/index.php/2015/06/24/sqlite%E5%87%BD%E6%95%B0%E5%A4%A7%E5%85%A8/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="imxqd.xyz">
+<meta name="msapplication-tooltip" content="imxqd.xyz">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="https://imxqd.xyz/"><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="https://imxqd.xyz/">imxqd.xyz</a></h2>
+  
+  <p class="subtitle"></p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">[Android]SQLite函数大全</h1>
+      <p class="post-meta">@imxqd · Jun 24, 2015 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>abs(X) 返回参数X的绝对值</p>
+
+<p>coalesce(X,Y,……) 返回第一个非空参数的副本。若所有的参数均为NULL，返回NULL。至少2个参数。</p>
+
+<p>ifnull(X,Y) 返回第一个非空参数的副本。若两个参数均为NULL，返回NULL。</p>
+
+<p>last_insert_rowid() 返回当前数据库连接最后插入行的RowID。</p>
+
+<p>length(X) 返回X的长度，以字符计。</p>
+
+<p>lower(X) 返回X字符串的所有字符小写化版本。</p>
+
+<p>max(X,Y) 返回最大值。</p>
+
+<p>nullif(X,Y) 当两参数不同时返回X，否则返回NULL。</p>
+
+<p>quote(X) 返回参数的适于插入其他SQL语句中的值。字符串会被添加单引号。</p>
+
+<p>random(*) 返回介于-231和231之间的随机整数。</p>
+
+<p>round(X)或round(X,Y) 将X四舍五入，保留小数点后Y位。若忽略Y参数，则默认其为0。</p>
+
+<p>sqlite_version(*) 返回所运行的SQLite库的版本号字符串。</p>
+
+<p>substr(X,Y,Z) 返回输入字符串X中以第Y个字符开始，Z个字符长的子串。X最左端的字符序号为1。若Y为负，则从右至左数起。</p>
+
+<p>typeof(X) 返回表达式X的类型。</p>
+
+<p>upper(X) 返回X字符串的所有字符大写化版本。</p>
+
+<p>在单参数聚集函数中，参数可以加前缀distinct。这时重复参数会被过滤掉，然后才传入到函数中。例如，函数count(distinct X)返回字段X的不重复非空值的个数，而不是字段X的全部非空值。</p>
+
+<p>avg(X) 返回一组中非空的X的平均值。非数字值作0处理。结果总是一个浮点数。</p>
+
+<p>count(X) 返回一组中X是非空值的次数。</p>
+
+<p>count(*) 返回该组中的行数。</p>
+
+<p>change_count() 返回受上一语句影响的行数。</p>
+
+<p>max(X) 返回一组中的最大值。</p>
+
+<p>min(X) 返回一组中的最小值。</p>
+
+<p>sum(X)和total(X) 返回一组中所有非空值的数字和。若没有非空行，sum()返回null而total()返回0.0。total()的返回值为浮点数，sum()可以为整数。</p>
+
+<p>date(日期时间字符串，修正符，修正符，……) 返回一个以YYYY-MM-DD为格式的日期。</p>
+
+<p>time(日期时间字符串，修正符，修正符，……) 返回一个以HH:MM:SS 为格式的日期时间。</p>
+
+<p>datetime(日期时间字符串，修正符，修正符，……) 返回一个以YYYY-MM-DD HH:MM:SS 为格式的日期时间。</p>
+
+<p>julianday(日期时间字符串，修正符，修正符，……) 返回一个天数，从格林威治时间公元前4714年11月24号开始算起。</p>
+
+<p>strftime(日期时间格式，日期时间字符串，修正符，修正符，……) 返回一个经过格式化的日期时间，它可以用以下的符号对日期和时间进行格式化：</p>
+
+<p>%d 一月中的第几天，01-31</p>
+
+<p>%f 小数形式的秒，SS.SSSS</p>
+
+<p>%H 小时，00-24</p>
+
+<p>%j 一年中的第几天，01-366</p>
+
+<p>%J Julian Day Numbers</p>
+
+<p>%m 月份，01-12</p>
+
+<p>%M 分钟，00-59</p>
+
+<p>%s 从1970-01-01日开始计算的秒数</p>
+
+<p>%S 秒，00-59</p>
+
+<p>%w 星期，0-6</p>
+
+<p>%W 一年中的第几周，00-53</p>
+
+<p>%Y 年份，0000-9999</p>
+
+<p>%%% 百分号</p>
+
+<p>其他四个函数都可以用strftime()函数来表示：</p>
+
+<p>date(……) strftime(&#8216;%Y-%m-%d&#8217;,……)</p>
+
+<p>time(……) strftime(&#8216;%H:%M:%S&#8217;,……)</p>
+
+<p>datetime(……) strftime(&#8216;%Y-%m-%d %H:%M:%S&#8217;,……)</p>
+
+<p>julianday(……) strftime(&#8216;%J&#8217;,……)</p>
+
+<p>日期时间字符串，可以用以下几种格式：</p>
+
+<p>YYYY-MM-DD</p>
+
+<p>YYYY-MM-DD HH:MM</p>
+
+<p>YYYY-MM-DD HH:MM:SS</p>
+
+<p>YYYY-MM-DD HH:MM:SS.SSS</p>
+
+<p>YYYY-MM-DDTHH:MM(T是一个分割日期和时间的字符)</p>
+
+<p>YYYY-MM-DDTHH:MM:SS</p>
+
+<p>YYYY-MM-DDTHH:MM:SS.SSS</p>
+
+<p>HH:MM</p>
+
+<p>HH:MM:SS</p>
+
+<p>HH:MM:SS.SSS</p>
+
+<p>now(返回一个当前的日期和时间，使用格林威治时间UTC)</p>
+
+<p>DDDD.DDDD</p>
+
+<p>日期和时间可以使用下面的修正符来更改日期或时间：</p>
+
+<p>(1)增加指定数值的日期和时间</p>
+
+<p>NNN days</p>
+
+<p>NNN hours</p>
+
+<p>NNN minutes</p>
+
+<p>NNN.NNNN seconds</p>
+
+<p>NNN months</p>
+
+<p>NNN years</p>
+
+<p>(2)返回当前日期的开始</p>
+
+<p>start of month</p>
+
+<p>start of year</p>
+
+<p>start of week</p>
+
+<p>start of day</p>
+
+<p>(3)返回下一个星期是N的日期和时间</p>
+
+<p>weekday N</p>
+
+<p>(4)返回从1970-01-01开始算起的秒数</p>
+
+<p>unixepoch</p>
+
+<p>(5)返回本地时间</p>
+
+<p>localtime</p>
+
+<p>例子：</p>
+
+<p>计算机当前时间：date(&#8216;now&#8217;)</p>
+
+<p>计算机当前月份的最后一天：date(&#8216;now&#8217;,&#8217;start of month&#8217;,&#8217;+1 month&#8217;,&#8217;-1 day&#8217;)</p>
+
+<p>计算UNIX时间戳1092941466表示的日期和时间：datetime(&#8216;1092941466&#8242;,&#8217;unixepoch&#8217;)</p>
+
+<p>计算UNIX时间戳1092941466表示的本地日期和时间：datetime(&#8216;1092941466&#8242;,&#8217;unixepoch&#8217;,&#8217;localtime&#8217;)</p>
+
+<p>计算机当前UNIX时间戳：strftime(&#8216;%s&#8217;,&#8217;now&#8217;)</p>
+
+<p>两个日期之间相差多少天：julianday(&#8216;now&#8217;)-julianday(&#8216;1981-12-23&#8217;)</p>
+
+<p>两个日期时间之间相差多少秒：julianday(&#8216;now&#8217;)*86400-juianday(&#8216;2004-01-01 02:34:45&#8217;)*86400</p>
+
+<p>计算今年十月份第一人星期二的日期：date(&#8216;now&#8217;,&#8217;start of year&#8217;,&#8217;+9 months&#8217;,&#8217;weekday 2&#8242;)</p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        This post was published <strong>1450</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 imxqd.xyz</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

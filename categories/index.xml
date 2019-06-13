@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on imxqd.xyz</title>
+    <link>https://imxqd.xyz/categories/</link>
+    <description>Recent content in Categories on imxqd.xyz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 17 May 2016 09:08:38 +0000</lastBuildDate>
+    
+	<atom:link href="https://imxqd.xyz/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>全部</title>
+      <link>https://imxqd.xyz/categories/%E5%85%A8%E9%83%A8/</link>
+      <pubDate>Tue, 17 May 2016 09:08:38 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/categories/%E5%85%A8%E9%83%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>其他</title>
+      <link>https://imxqd.xyz/categories/%E5%85%B6%E4%BB%96/</link>
+      <pubDate>Tue, 17 May 2016 09:08:38 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/categories/%E5%85%B6%E4%BB%96/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Android应用</title>
+      <link>https://imxqd.xyz/categories/android%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Mon, 14 Mar 2016 05:27:43 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/categories/android%E5%BA%94%E7%94%A8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>算法与ACM</title>
+      <link>https://imxqd.xyz/categories/%E7%AE%97%E6%B3%95%E4%B8%8Eacm/</link>
+      <pubDate>Sat, 15 Nov 2014 13:46:37 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/categories/%E7%AE%97%E6%B3%95%E4%B8%8Eacm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://imxqd.xyz/categories/linux/</link>
+      <pubDate>Wed, 15 Jan 2014 05:15:00 +0000</pubDate>
+      
+      <guid>https://imxqd.xyz/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

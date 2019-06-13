@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>[Android]可用的Drawable Resources</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="imxqd">
+  <meta name="description" content="Drawable Resources即可绘制的资源，可以用作例如android:drawable、android:icon等属性的值。
+根据Android Developer官网，Android一共支持以下几种Drawable Resources
+Bitmap File
+位图文件 (.png, .jpg, or .gif)。
+Nine-Patch File
+能够伸缩而不影响图片质量的一种png图片 (.9.png)。
+Layer List
+Drawable组，通过xml将一组Drawable整合起来，一层一层的分别绘制，最后一层会显示在最上面。
+State List
+与Layer List类似，可以把一组Drawable整合起来，但它还有更加高级的特性，可以根据所在UI控件的状态而显示不同的Drawable
+Level List
+同样是将一组Drawable整合起来，但Level List可以轮换显示
+Transition Drawable
+可以在两个Drawable之间进行切换
+Inset Drawable
+内嵌的Drawable，一般是让已有的Drawable在背景的一个特定位置显示时用
+Clip Drawable
+把已有的Drawable进行剪切生成的新的Drawable
+Scale Drawable
+把已有的Drawable进行拉伸生成的新的Drawable
+Shape Drawable
+图形Drawable，可以画出矩形，椭圆等等之类的图形">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="[Android]可用的Drawable Resources">
+    <meta name="twitter:description" content="Drawable Resources即可绘制的资源，可以用作例如android:drawable、android:icon等属性的值。
+根据Android Developer官网，Android一共支持以下几种Drawable Resources
+Bitmap File
+位图文件 (.png, .jpg, or .gif)。
+Nine-Patch File
+能够伸缩而不影响图片质量的一种png图片 (.9.png)。
+Layer List
+Drawable组，通过xml将一组Drawable整合起来，一层一层的分别绘制，最后一层会显示在最上面。
+State List
+与Layer List类似，可以把一组Drawable整合起来，但它还有更加高级的特性，可以根据所在UI控件的状态而显示不同的Drawable
+Level List
+同样是将一组Drawable整合起来，但Level List可以轮换显示
+Transition Drawable
+可以在两个Drawable之间进行切换
+Inset Drawable
+内嵌的Drawable，一般是让已有的Drawable在背景的一个特定位置显示时用
+Clip Drawable
+把已有的Drawable进行剪切生成的新的Drawable
+Scale Drawable
+把已有的Drawable进行拉伸生成的新的Drawable
+Shape Drawable
+图形Drawable，可以画出矩形，椭圆等等之类的图形">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="[Android]可用的Drawable Resources">
+  <meta property="og:description" content="Drawable Resources即可绘制的资源，可以用作例如android:drawable、android:icon等属性的值。
+根据Android Developer官网，Android一共支持以下几种Drawable Resources
+Bitmap File
+位图文件 (.png, .jpg, or .gif)。
+Nine-Patch File
+能够伸缩而不影响图片质量的一种png图片 (.9.png)。
+Layer List
+Drawable组，通过xml将一组Drawable整合起来，一层一层的分别绘制，最后一层会显示在最上面。
+State List
+与Layer List类似，可以把一组Drawable整合起来，但它还有更加高级的特性，可以根据所在UI控件的状态而显示不同的Drawable
+Level List
+同样是将一组Drawable整合起来，但Level List可以轮换显示
+Transition Drawable
+可以在两个Drawable之间进行切换
+Inset Drawable
+内嵌的Drawable，一般是让已有的Drawable在背景的一个特定位置显示时用
+Clip Drawable
+把已有的Drawable进行剪切生成的新的Drawable
+Scale Drawable
+把已有的Drawable进行拉伸生成的新的Drawable
+Shape Drawable
+图形Drawable，可以画出矩形，椭圆等等之类的图形">
+  <meta property="og:url" content="https://imxqd.xyz/index.php/2015/06/16/%E5%8F%AF%E7%94%A8%E7%9A%84drawable-resourcesandroid-develop/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="https://imxqd.xyz/index.php/2015/06/16/%E5%8F%AF%E7%94%A8%E7%9A%84drawable-resourcesandroid-develop/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="imxqd.xyz">
+<meta name="msapplication-tooltip" content="imxqd.xyz">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="https://imxqd.xyz/"><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="https://imxqd.xyz/">imxqd.xyz</a></h2>
+  
+  <p class="subtitle"></p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">[Android]可用的Drawable Resources</h1>
+      <p class="post-meta">@imxqd · Jun 16, 2015 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>Drawable Resources即可绘制的资源，可以用作例如android:drawable、android:icon等属性的值。</p>
+
+<p>根据Android Developer官网，Android一共支持以下几种Drawable Resources</p>
+
+<p><strong>Bitmap File</strong></p>
+
+<p>位图文件 (.png, .jpg, or .gif)。</p>
+
+<p><strong>Nine-Patch File</strong></p>
+
+<p>能够伸缩而不影响图片质量的一种png图片 (.9.png)。</p>
+
+<p><strong>Layer List</strong></p>
+
+<p>Drawable组，通过xml将一组Drawable整合起来，一层一层的分别绘制，最后一层会显示在最上面。</p>
+
+<p><strong>State List</strong></p>
+
+<p>与Layer List类似，可以把一组Drawable整合起来，但它还有更加高级的特性，可以根据所在UI控件的状态而显示不同的Drawable</p>
+
+<p><strong>Level List</strong></p>
+
+<p>同样是将一组Drawable整合起来，但Level List可以轮换显示</p>
+
+<p><strong>Transition Drawable</strong></p>
+
+<p>可以在两个Drawable之间进行切换</p>
+
+<p><strong>Inset Drawable</strong></p>
+
+<p>内嵌的Drawable，一般是让已有的Drawable在背景的一个特定位置显示时用</p>
+
+<p><strong>Clip Drawable</strong></p>
+
+<p>把已有的Drawable进行剪切生成的新的Drawable</p>
+
+<p><strong>Scale Drawable</strong></p>
+
+<p>把已有的Drawable进行拉伸生成的新的Drawable</p>
+
+<p><strong>Shape Drawable</strong></p>
+
+<p>图形Drawable，可以画出矩形，椭圆等等之类的图形</p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        This post was published <strong>1458</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 imxqd.xyz</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

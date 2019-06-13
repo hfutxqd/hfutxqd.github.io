@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>自己设计实现文件压缩及解压程序</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  
+  
+
+  
+
+  
+  <meta name="author" content="imxqd">
+  <meta name="description" content="任务定义和问题分析 此问题分为五个过程：
+ 文件的读取和字符的统计。
+  这个是最简单的过程，读取文件，统计每个字符的出现次数。把这些数据统计在高度为1的二叉树中，每一个字符占用一棵树。这些所有树的集合构成一个树的列表（指针）。
+   哈夫曼树的创建。
+  哈夫曼树的创建也是比较简单的，因为在我们学习哈夫曼树定义的时候，就已经给出了哈夫曼树的创建过程，只要按照其过程就能比较好地创建出哈夫曼树了。
+ &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;具体过程为：&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;每次从已有的字符树列表中找出权值最小的两个二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;把它们权值相加产生一个新的高度为1的二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;把新二叉树的左孩子指向之前找到的权值最小的字符所在的二叉树，右孩子指向第二小的二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;然后把新产生的二叉树加入到字符树列表中，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;最后从字符树列表中删除之前找到的权值最小的两棵二叉树（指针）。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;反复循环，直到字符树列表中只剩下一棵二叉树。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;到此，哈夫曼树的创建完成。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;哈夫曼编码。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;哈夫曼树创建完成后，哈夫曼编码也就很简单了。从树根开始，向左记为0，向右记为1,。这里涉及到之前所做过的实验──从根节点到叶子节点的路径。方法基本类似，通过遍历可以很方便地实现。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;文件压缩后的写入文件的方式。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;经过哈夫曼编码的压缩后，一个字符可能由不到8位甚至只有1位的空间来存储。但是，目前大部分语言都没有以位为单位的数据类型。为了解决这个问题，我们需要把二进制字符串按一定长度切割并且转换为标准类型。我采用的是把二进制字符串以32字符的长度进行切割，并把它转换为unsigned long类型，最后如果不足32位，在前面补0然后再转为unsigned long类型。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;文件要想能够解压，就必须要把哈夫曼编码表保存到文件，而且每个字符&#43;编码的长度都要固定。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;开始，我是采用的char &#43; char[]的方式，发现这样比较浪费空间，如果要完全压缩二进制文件，char[]的长度可能需要256，耗费256 &#43; 1个字节（256个char &#43; 1个char），所以是相当废空间。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;于是，我又想了一种相对更好的方法，就是把哈夫曼编码同样转换为unsigned long[]，采用char &#43; unsigned long[] &#43; char的方式。后一个char是用来记录哈夫曼编码的长度，便于哈夫曼编码的再读取。这样，只消耗了32&#43;2个字节（8个unsigned long &#43; 2个char）。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;解压文件。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;只要先读取哈夫曼编码表，再读取文件内容，把文件内容转换为二进制字符串，再遍历二进制字符串，在哈夫曼编码表中寻找，逐个替换，再写入文件即可。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;/ol&amp;gt; &amp;lt;h3&amp;gt; &amp;lt;span style=&amp;quot;font-size: 12pt;&amp;quot;&amp;gt;数据结构的选择和概要设计&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/h3&amp;gt; &amp;lt;p&amp;gt; 为了方便哈夫曼树的创建和哈夫曼编码，特别设计二叉树结构为 &amp;lt;/p&amp;gt; &amp;lt;div&amp;gt; &amp;lt;table style=&amp;quot;border-collapse: collapse;&amp;quot; border=&amp;quot;0&amp;quot;&amp;gt; &amp;lt;colgroup&amp;gt; &amp;lt;col style=&amp;quot;width: 691px;&amp;quot; /&amp;gt;&amp;lt;/colgroup&amp;gt; &amp;lt;tr&amp;gt; &amp;lt;td style=&amp;quot;padding-left: 9px; padding-right: 9px; border: solid 0.">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="自己设计实现文件压缩及解压程序">
+    <meta name="twitter:description" content="任务定义和问题分析 此问题分为五个过程：
+ 文件的读取和字符的统计。
+  这个是最简单的过程，读取文件，统计每个字符的出现次数。把这些数据统计在高度为1的二叉树中，每一个字符占用一棵树。这些所有树的集合构成一个树的列表（指针）。
+   哈夫曼树的创建。
+  哈夫曼树的创建也是比较简单的，因为在我们学习哈夫曼树定义的时候，就已经给出了哈夫曼树的创建过程，只要按照其过程就能比较好地创建出哈夫曼树了。
+ &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;具体过程为：&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;每次从已有的字符树列表中找出权值最小的两个二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;把它们权值相加产生一个新的高度为1的二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;把新二叉树的左孩子指向之前找到的权值最小的字符所在的二叉树，右孩子指向第二小的二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;然后把新产生的二叉树加入到字符树列表中，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;最后从字符树列表中删除之前找到的权值最小的两棵二叉树（指针）。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;反复循环，直到字符树列表中只剩下一棵二叉树。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;到此，哈夫曼树的创建完成。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;哈夫曼编码。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;哈夫曼树创建完成后，哈夫曼编码也就很简单了。从树根开始，向左记为0，向右记为1,。这里涉及到之前所做过的实验──从根节点到叶子节点的路径。方法基本类似，通过遍历可以很方便地实现。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;文件压缩后的写入文件的方式。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;经过哈夫曼编码的压缩后，一个字符可能由不到8位甚至只有1位的空间来存储。但是，目前大部分语言都没有以位为单位的数据类型。为了解决这个问题，我们需要把二进制字符串按一定长度切割并且转换为标准类型。我采用的是把二进制字符串以32字符的长度进行切割，并把它转换为unsigned long类型，最后如果不足32位，在前面补0然后再转为unsigned long类型。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;文件要想能够解压，就必须要把哈夫曼编码表保存到文件，而且每个字符&#43;编码的长度都要固定。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;开始，我是采用的char &#43; char[]的方式，发现这样比较浪费空间，如果要完全压缩二进制文件，char[]的长度可能需要256，耗费256 &#43; 1个字节（256个char &#43; 1个char），所以是相当废空间。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;于是，我又想了一种相对更好的方法，就是把哈夫曼编码同样转换为unsigned long[]，采用char &#43; unsigned long[] &#43; char的方式。后一个char是用来记录哈夫曼编码的长度，便于哈夫曼编码的再读取。这样，只消耗了32&#43;2个字节（8个unsigned long &#43; 2个char）。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;解压文件。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;只要先读取哈夫曼编码表，再读取文件内容，把文件内容转换为二进制字符串，再遍历二进制字符串，在哈夫曼编码表中寻找，逐个替换，再写入文件即可。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;/ol&amp;gt; &amp;lt;h3&amp;gt; &amp;lt;span style=&amp;quot;font-size: 12pt;&amp;quot;&amp;gt;数据结构的选择和概要设计&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/h3&amp;gt; &amp;lt;p&amp;gt; 为了方便哈夫曼树的创建和哈夫曼编码，特别设计二叉树结构为 &amp;lt;/p&amp;gt; &amp;lt;div&amp;gt; &amp;lt;table style=&amp;quot;border-collapse: collapse;&amp;quot; border=&amp;quot;0&amp;quot;&amp;gt; &amp;lt;colgroup&amp;gt; &amp;lt;col style=&amp;quot;width: 691px;&amp;quot; /&amp;gt;&amp;lt;/colgroup&amp;gt; &amp;lt;tr&amp;gt; &amp;lt;td style=&amp;quot;padding-left: 9px; padding-right: 9px; border: solid 0.">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="自己设计实现文件压缩及解压程序">
+  <meta property="og:description" content="任务定义和问题分析 此问题分为五个过程：
+ 文件的读取和字符的统计。
+  这个是最简单的过程，读取文件，统计每个字符的出现次数。把这些数据统计在高度为1的二叉树中，每一个字符占用一棵树。这些所有树的集合构成一个树的列表（指针）。
+   哈夫曼树的创建。
+  哈夫曼树的创建也是比较简单的，因为在我们学习哈夫曼树定义的时候，就已经给出了哈夫曼树的创建过程，只要按照其过程就能比较好地创建出哈夫曼树了。
+ &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;具体过程为：&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;每次从已有的字符树列表中找出权值最小的两个二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;把它们权值相加产生一个新的高度为1的二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;把新二叉树的左孩子指向之前找到的权值最小的字符所在的二叉树，右孩子指向第二小的二叉树，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;然后把新产生的二叉树加入到字符树列表中，&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;最后从字符树列表中删除之前找到的权值最小的两棵二叉树（指针）。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;反复循环，直到字符树列表中只剩下一棵二叉树。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;到此，哈夫曼树的创建完成。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;哈夫曼编码。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;哈夫曼树创建完成后，哈夫曼编码也就很简单了。从树根开始，向左记为0，向右记为1,。这里涉及到之前所做过的实验──从根节点到叶子节点的路径。方法基本类似，通过遍历可以很方便地实现。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;文件压缩后的写入文件的方式。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;经过哈夫曼编码的压缩后，一个字符可能由不到8位甚至只有1位的空间来存储。但是，目前大部分语言都没有以位为单位的数据类型。为了解决这个问题，我们需要把二进制字符串按一定长度切割并且转换为标准类型。我采用的是把二进制字符串以32字符的长度进行切割，并把它转换为unsigned long类型，最后如果不足32位，在前面补0然后再转为unsigned long类型。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;文件要想能够解压，就必须要把哈夫曼编码表保存到文件，而且每个字符&#43;编码的长度都要固定。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;开始，我是采用的char &#43; char[]的方式，发现这样比较浪费空间，如果要完全压缩二进制文件，char[]的长度可能需要256，耗费256 &#43; 1个字节（256个char &#43; 1个char），所以是相当废空间。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;于是，我又想了一种相对更好的方法，就是把哈夫曼编码同样转换为unsigned long[]，采用char &#43; unsigned long[] &#43; char的方式。后一个char是用来记录哈夫曼编码的长度，便于哈夫曼编码的再读取。这样，只消耗了32&#43;2个字节（8个unsigned long &#43; 2个char）。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li&amp;gt; &amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;解压文件。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;p style=&amp;quot;text-align: justify;&amp;quot;&amp;gt; &amp;lt;span style=&amp;quot;font-size: 10pt;&amp;quot;&amp;gt;只要先读取哈夫曼编码表，再读取文件内容，把文件内容转换为二进制字符串，再遍历二进制字符串，在哈夫曼编码表中寻找，逐个替换，再写入文件即可。&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/p&amp;gt; &amp;lt;/li&amp;gt;&amp;lt;/ol&amp;gt; &amp;lt;h3&amp;gt; &amp;lt;span style=&amp;quot;font-size: 12pt;&amp;quot;&amp;gt;数据结构的选择和概要设计&amp;lt;br /&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;/h3&amp;gt; &amp;lt;p&amp;gt; 为了方便哈夫曼树的创建和哈夫曼编码，特别设计二叉树结构为 &amp;lt;/p&amp;gt; &amp;lt;div&amp;gt; &amp;lt;table style=&amp;quot;border-collapse: collapse;&amp;quot; border=&amp;quot;0&amp;quot;&amp;gt; &amp;lt;colgroup&amp;gt; &amp;lt;col style=&amp;quot;width: 691px;&amp;quot; /&amp;gt;&amp;lt;/colgroup&amp;gt; &amp;lt;tr&amp;gt; &amp;lt;td style=&amp;quot;padding-left: 9px; padding-right: 9px; border: solid 0.">
+  <meta property="og:url" content="https://imxqd.xyz/index.php/2014/11/15/%E8%87%AA%E5%B7%B1%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E5%8F%8A%E8%A7%A3%E5%8E%8B%E7%A8%8B%E5%BA%8F/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="https://imxqd.xyz/index.php/2014/11/15/%E8%87%AA%E5%B7%B1%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E5%8F%8A%E8%A7%A3%E5%8E%8B%E7%A8%8B%E5%BA%8F/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="imxqd.xyz">
+<meta name="msapplication-tooltip" content="imxqd.xyz">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href="https://imxqd.xyz/"><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="https://imxqd.xyz/">imxqd.xyz</a></h2>
+  
+  <p class="subtitle"></p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">自己设计实现文件压缩及解压程序</h1>
+      <p class="post-meta">@imxqd · Nov 15, 2014 · 6 min read</p>
+    </header>
+    <article class="post-content">
+
+<h1 id="span-style-font-size-12pt-任务定义和问题分析-span"><span style="font-size: 12pt;">任务定义和问题分析</span></h1>
+
+<p>此问题分为五个过程：</p>
+
+<ol>
+<li><div style="text-align: justify;">
+  <span style="font-size: 10pt;">文件的读取和字符的统计。<br /> </span>
+</div>
+    
+
+<p style="text-align: justify;">
+  <span style="font-size: 10pt;">这个是最简单的过程，读取文件，统计每个字符的出现次数。把这些数据统计在高度为1的二叉树中，每一个字符占用一棵树。这些所有树的集合构成一个树的列表（指针）。<br /> </span>
+</p>
+    
+
+<p style="text-align: justify;">
+  </li> 
+      
+  <li>
+    <div style="text-align: justify;">
+      <span style="font-size: 10pt;">哈夫曼树的创建。<br /> </span>
+    </div>
+        
+    <p style="text-align: justify;">
+      <span style="font-size: 10pt;">哈夫曼树的创建也是比较简单的，因为在我们学习哈夫曼树定义的时候，就已经给出了哈夫曼树的创建过程，只要按照其过程就能比较好地创建出哈夫曼树了。<br /> </span>
+    </p>
+        
+
+<pre><code>&lt;p style=&quot;text-align: justify;&quot;&gt;
+  &lt;span style=&quot;font-size: 10pt;&quot;&gt;具体过程为：&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align: justify;&quot;&gt;
+  &lt;span style=&quot;font-size: 10pt;&quot;&gt;每次从已有的字符树列表中找出权值最小的两个二叉树，&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align: justify;&quot;&gt;
+  &lt;span style=&quot;font-size: 10pt;&quot;&gt;把它们权值相加产生一个新的高度为1的二叉树，&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align: justify;&quot;&gt;
+  &lt;span style=&quot;font-size: 10pt;&quot;&gt;把新二叉树的左孩子指向之前找到的权值最小的字符所在的二叉树，右孩子指向第二小的二叉树，&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align: justify;&quot;&gt;
+  &lt;span style=&quot;font-size: 10pt;&quot;&gt;然后把新产生的二叉树加入到字符树列表中，&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align: justify;&quot;&gt;
+  &lt;span style=&quot;font-size: 10pt;&quot;&gt;最后从字符树列表中删除之前找到的权值最小的两棵二叉树（指针）。&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align: justify;&quot;&gt;
+  &lt;span style=&quot;font-size: 10pt;&quot;&gt;反复循环，直到字符树列表中只剩下一棵二叉树。&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align: justify;&quot;&gt;
+  &lt;span style=&quot;font-size: 10pt;&quot;&gt;到此，哈夫曼树的创建完成。&lt;br /&gt; &lt;/span&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align: justify;&quot;&gt;
+  &lt;/li&gt; 
+
+  &lt;li&gt;
+    &lt;div style=&quot;text-align: justify;&quot;&gt;
+      &lt;span style=&quot;font-size: 10pt;&quot;&gt;哈夫曼编码。&lt;br /&gt; &lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;p style=&quot;text-align: justify;&quot;&gt;
+      &lt;span style=&quot;font-size: 10pt;&quot;&gt;哈夫曼树创建完成后，哈夫曼编码也就很简单了。从树根开始，向左记为0，向右记为1,。这里涉及到之前所做过的实验──从根节点到叶子节点的路径。方法基本类似，通过遍历可以很方便地实现。&lt;br /&gt; &lt;/span&gt;
+    &lt;/p&gt;
+
+    &lt;p style=&quot;text-align: justify;&quot;&gt;
+      &lt;/li&gt; 
+
+      &lt;li&gt;
+        &lt;div style=&quot;text-align: justify;&quot;&gt;
+          &lt;span style=&quot;font-size: 10pt;&quot;&gt;文件压缩后的写入文件的方式。&lt;br /&gt; &lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;p style=&quot;text-align: justify;&quot;&gt;
+          &lt;span style=&quot;font-size: 10pt;&quot;&gt;经过哈夫曼编码的压缩后，一个字符可能由不到8位甚至只有1位的空间来存储。但是，目前大部分语言都没有以位为单位的数据类型。为了解决这个问题，我们需要把二进制字符串按一定长度切割并且转换为标准类型。我采用的是把二进制字符串以32字符的长度进行切割，并把它转换为unsigned long类型，最后如果不足32位，在前面补0然后再转为unsigned long类型。&lt;br /&gt; &lt;/span&gt;
+        &lt;/p&gt;
+
+        &lt;p style=&quot;text-align: justify;&quot;&gt;
+          &lt;span style=&quot;font-size: 10pt;&quot;&gt;文件要想能够解压，就必须要把哈夫曼编码表保存到文件，而且每个字符+编码的长度都要固定。&lt;br /&gt; &lt;/span&gt;
+        &lt;/p&gt;
+
+        &lt;p style=&quot;text-align: justify;&quot;&gt;
+          &lt;span style=&quot;font-size: 10pt;&quot;&gt;开始，我是采用的char + char[]的方式，发现这样比较浪费空间，如果要完全压缩二进制文件，char[]的长度可能需要256，耗费256 + 1个字节（256个char + 1个char），所以是相当废空间。&lt;br /&gt; &lt;/span&gt;
+        &lt;/p&gt;
+
+        &lt;p style=&quot;text-align: justify;&quot;&gt;
+          &lt;span style=&quot;font-size: 10pt;&quot;&gt;于是，我又想了一种相对更好的方法，就是把哈夫曼编码同样转换为unsigned long[]，采用char + unsigned long[] + char的方式。后一个char是用来记录哈夫曼编码的长度，便于哈夫曼编码的再读取。这样，只消耗了32+2个字节（8个unsigned long + 2个char）。&lt;br /&gt; &lt;/span&gt;
+        &lt;/p&gt;
+
+        &lt;p style=&quot;text-align: justify;&quot;&gt;
+          &lt;/li&gt; 
+
+          &lt;li&gt;
+            &lt;div style=&quot;text-align: justify;&quot;&gt;
+              &lt;span style=&quot;font-size: 10pt;&quot;&gt;解压文件。&lt;br /&gt; &lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;p style=&quot;text-align: justify;&quot;&gt;
+              &lt;span style=&quot;font-size: 10pt;&quot;&gt;只要先读取哈夫曼编码表，再读取文件内容，把文件内容转换为二进制字符串，再遍历二进制字符串，在哈夫曼编码表中寻找，逐个替换，再写入文件即可。&lt;br /&gt; &lt;/span&gt;
+            &lt;/p&gt;
+          &lt;/li&gt;&lt;/ol&gt; 
+
+          &lt;h3&gt;
+            &lt;span style=&quot;font-size: 12pt;&quot;&gt;数据结构的选择和概要设计&lt;br /&gt; &lt;/span&gt;
+          &lt;/h3&gt;
+
+          &lt;p&gt;
+            为了方便哈夫曼树的创建和哈夫曼编码，特别设计二叉树结构为
+          &lt;/p&gt;
+
+          &lt;div&gt;
+            &lt;table style=&quot;border-collapse: collapse;&quot; border=&quot;0&quot;&gt;
+              &lt;colgroup&gt; &lt;col style=&quot;width: 691px;&quot; /&gt;&lt;/colgroup&gt; &lt;tr&gt;
+                &lt;td style=&quot;padding-left: 9px; padding-right: 9px; border: solid 0.5pt;&quot;&gt;
+                  &lt;span style=&quot;font-size: 10pt;&quot;&gt;struct BNode&lt;br /&gt; &lt;/span&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;{&lt;br /&gt; &lt;/span&gt;&lt;/p&gt; 
+
+                  &lt;p&gt;
+                    &lt;span style=&quot;font-size: 10pt;&quot;&gt;    BNode * Left;&lt;br /&gt; &lt;/span&gt;
+                  &lt;/p&gt;
+
+                  &lt;p&gt;
+                    &lt;span style=&quot;font-size: 10pt;&quot;&gt;    int Weight;&lt;br /&gt; &lt;/span&gt;
+                  &lt;/p&gt;
+
+                  &lt;p&gt;
+                    &lt;span style=&quot;font-size: 10pt;&quot;&gt;    char data;&lt;br /&gt; &lt;/span&gt;
+                  &lt;/p&gt;
+
+                  &lt;p&gt;
+                    &lt;span style=&quot;font-size: 10pt;&quot;&gt;    BNode * Right;&lt;br /&gt; &lt;/span&gt;
+                  &lt;/p&gt;
+
+                  &lt;p&gt;
+                    &lt;span style=&quot;font-size: 10pt;&quot;&gt;};&lt;/span&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt; 
+
+                    &lt;p&gt;
+                      其中Weight为data字符在文件中出现的频率。
+                    &lt;/p&gt;
+
+                    &lt;p&gt;
+                      为了方便访问和使用并兼容二进制压缩而非只支持文本压缩，采用vector&lt;char&gt;存储结构来存储输入文件，而非string；
+                    &lt;/p&gt;
+
+                    &lt;p&gt;
+                      由于这里只是说原理而非真实的应用环境，&lt;span style=&quot;color: red;&quot;&gt;过程 四 中的unsigned long[]只用了一个长度（即unsigned long）&lt;/span&gt;，因为主要是针对小文件的文本压缩，哈夫曼编码表太大的话，小文件的压缩效果会很不理想。所以在使用过程中可能会有无法压缩或解压补全的情况出现。&lt;br /&gt; 以下附出参考代码,仅供参考
+                    &lt;/p&gt;
+
+                    &lt;pre&gt;// HuffmanTree.h
+</code></pre>
+
+<p>#pragma once
+#include
+#include
+#include</p></li>
+</ol>
+
+<p><map>
+  #include
+  #include
+  #include
+  #include
+  using namespace std;</p>
+
+<p>struct BNode
+  {
+    BNode * Left;
+    int Weight;
+    char data;
+    BNode * Right;
+  };</p>
+
+<p>class HuffmanTree
+  {
+  public:
+    HuffmanTree(vector data);
+    void PreOrder();
+    void WriteToFile(char * filename);
+    static void Unzip(char * filename, char * outfile);
+    ~HuffmanTree();
+  private:
+    vector&lt;BNode*&gt; TreeList;
+    map&lt;char, int&gt; CharMap;
+    map&lt;char, string&gt; CodeMap;
+    BNode * root;
+    string code;
+    vector sourceStr;
+    string binStr;</p>
+
+<pre><code>void InitTreeList();
+void Building();
+int findMinTwoIndex(int &amp;Index1, int &amp;Index2);
+int getEffectSize();
+BNode * getEffectOne();
+void PreOrder(BNode * root);
+void CreateCodeMap();
+void findCode(BNode * root, char from, string code);
+void CreateBinStr();
+</code></pre>
+
+<p>};</p>
+
+<p></map></pre></p>
+
+<pre><code>                        &lt;pre&gt;// HuffmanTree.cpp
+</code></pre>
+
+<p>#include &ldquo;stdafx.h&rdquo;
+#include &ldquo;HuffmanTree.h&rdquo;</p>
+
+<p>HuffmanTree::HuffmanTree(vector data) :sourceStr(data.begin(), data.end())
+{
+    for (int i = 0; i &lt; data.size(); i++)
+    {
+        CharMap[data[i]]++;
+    }
+    InitTreeList();
+    Building();
+    CreateCodeMap();
+    CreateBinStr();
+}</p>
+
+<p>void HuffmanTree::InitTreeList()
+{
+    map&lt;char, int&gt;::iterator it = CharMap.begin();
+    for (; it != CharMap.end(); it++)
+    {
+        BNode * tmp = new BNode;
+        tmp-&gt;data = it-&gt;first;
+        tmp-&gt;Weight = it-&gt;second;
+        tmp-&gt;Left = NULL;
+        tmp-&gt;Right = NULL;
+        TreeList.push_back(tmp);
+    }
+}</p>
+
+<p>void HuffmanTree::Building()
+{
+    while (getEffectSize() &gt; 1)
+    {
+        int sum, pos1, pos2;
+        sum = findMinTwoIndex(pos1, pos2);
+        BNode * tmp = new BNode;
+        tmp-&gt;Weight = sum;
+        tmp-&gt;data = 0;
+        tmp-&gt;Left = TreeList[pos1];
+        tmp-&gt;Right = TreeList[pos2];
+        TreeList.push_back(tmp);
+        TreeList[pos1]-&gt;Weight = -1;
+        TreeList[pos2]-&gt;Weight = -1;
+    }
+    root = getEffectOne();
+}</p>
+
+<p>BNode * HuffmanTree::getEffectOne()
+{
+    for (int i = 0; i &lt; TreeList.size(); i++) { if (TreeList[i]-&gt;Weight &gt; 0)
+        {
+            return TreeList[i];
+        }
+    }
+}</p>
+
+<p>int HuffmanTree::getEffectSize()
+{
+    int count = 0;
+    for (int i = 0; i &lt; TreeList.size(); i++) { if (TreeList[i]-&gt;Weight &gt; 0)
+        {
+            count++;
+        }
+    }</p>
+
+<pre><code>return count;
+</code></pre>
+
+<p>}</p>
+
+<p>int HuffmanTree::findMinTwoIndex(int &amp;Index1, int &amp;Index2)
+{
+    int i = 0;
+    while (TreeList[i]-&gt;Weight &lt; 0) { i++; } int min = TreeList[i]-&gt;Weight;
+    int pos = i;
+    for (int i = 0; i &lt; TreeList.size(); i++) { if (min &gt; TreeList[i]-&gt;Weight &amp;&amp; TreeList[i]-&gt;Weight &gt; 0)
+        {
+            min = TreeList[i]-&gt;Weight;
+            pos = i;
+        }
+    }
+    TreeList[pos]-&gt;Weight = -1;
+    i = 0;
+    while (TreeList[i]-&gt;Weight &lt; 0) { i++; } int min2 = TreeList[i]-&gt;Weight;
+    int pos2 = i;
+    for (int i = 0; i &lt; TreeList.size(); i++) { if (min2 &gt; TreeList[i]-&gt;Weight &amp;&amp; TreeList[i]-&gt;Weight &gt; 0)
+        {
+            min2 = TreeList[i]-&gt;Weight;
+            pos2 = i;
+        }
+    }
+    TreeList[pos]-&gt;Weight = min;
+    Index1 = pos;
+    Index2 = pos2;
+    return min + min2;
+}</p>
+
+<p>void HuffmanTree::PreOrder(BNode * root)
+{
+    if (root != 0)
+    {
+        if (root-&gt;data &gt; 0)
+            cout &lt;&lt; root-&gt;data &lt;&lt; &ldquo; &ldquo;; PreOrder(root-&gt;Left);
+        PreOrder(root-&gt;Right);
+    }
+}</p>
+
+<p>void HuffmanTree::PreOrder()
+{
+    PreOrder(root);
+}</p>
+
+<p>void HuffmanTree::findCode(BNode * root, char from, string code)
+{
+    if (from == &lsquo;L&rsquo;)
+    {
+        code.append(&ldquo;0&rdquo;);
+    }
+    else if (from == &lsquo;R&rsquo;)
+    {
+        code.append(&ldquo;1&rdquo;);
+    }
+    if (root != NULL)
+    {
+        findCode(root-&gt;Left, &lsquo;L&rsquo;, code);
+        findCode(root-&gt;Right, &lsquo;R&rsquo;, code);
+        if (root-&gt;Left == NULL &amp;&amp; root-&gt;Right == NULL)
+        {
+            if (from == &lsquo;B&rsquo;)
+            {
+                code.append(&ldquo;0&rdquo;);
+            }
+            CodeMap[root-&gt;data] = code;
+            return;
+        }
+    }
+}</p>
+
+<p>void HuffmanTree::CreateCodeMap()
+{
+    findCode(root, &lsquo;B&rsquo;, code);
+}</p>
+
+<p>void HuffmanTree::CreateBinStr()
+{
+    for (int i = 0; i &lt; sourceStr.size(); i++)
+    {
+        binStr.append(CodeMap[sourceStr[i]]);
+    }
+    /<em>cout &lt;&lt; sourceStr &lt;&lt; endl;
+    cout &lt;&lt; binStr &lt;&lt; endl;</em>/
+}</p>
+
+<p>void HuffmanTree::WriteToFile(char * filename)
+{
+    ofstream out;
+    out.open(filename, ios::binary);
+    int count = CodeMap.size();</p>
+
+<pre><code>out.write((char*)&amp;count, sizeof(count));
+map&amp;lt;char, string&amp;gt;::iterator it = CodeMap.begin();
+for (; it != CodeMap.end(); it++)
+{
+    /*char key;
+    char value[16] = {0};
+    key = it-&amp;gt;first;
+    strcpy_s(value, it-&amp;gt;second.c_str());
+    out.write((char*)&amp;key, sizeof(key));
+    out.write((char*)value, sizeof(char) * 16);*/
+    char key;
+    unsigned long value = 0;;
+    char valueLenth = 0;
+    key = it-&amp;gt;first;
+    bitset  bit(it-&amp;gt;second);
+    valueLenth = it-&amp;gt;second.size();
+    value = bit.to_ulong();
+    out.write((char*)&amp;key, sizeof(key));
+    out.write((char*)&amp;value, sizeof(value));
+    out.write((char*)&amp;valueLenth, sizeof(valueLenth));//用来表示哈夫曼编码的长度
+
+}
+
+int zeroCount = 32 - binStr.size() % 32;
+out.write((char*)&amp;zeroCount, sizeof(zeroCount));
+for (int i = 0; i &amp;lt; binStr.size(); i += 32)
+{
+    bitset bit(binStr.substr(i, 32));
+    unsigned long tmp = bit.to_ulong();
+    out.write((char*)&amp;tmp, sizeof(tmp));
+}
+
+out.close();
+</code></pre>
+
+<p>}</p>
+
+<p>void Delete(BNode* root)
+{
+    if (root != NULL)
+    {
+        Delete(root-&gt;Left);
+        Delete(root-&gt;Right);
+        delete root;
+    }
+}</p>
+
+<p>HuffmanTree::~HuffmanTree()
+{
+    Delete(root);
+}</p>
+
+<p>void HuffmanTree::Unzip(char * filename, char * outfile)
+{
+    ifstream file;
+    ofstream out;</p>
+
+<pre><code>file.open(filename, ios::binary);
+out.open(outfile, ios::binary);
+
+int size = 0;
+file.read((char*)&amp;size, sizeof(int));
+map&amp;lt;char, string&amp;gt; CodeMap;
+for (int i = 0; i &amp;lt; size; i++)
+{
+    char key;
+    unsigned long value;
+    char valueLenth;
+    file.read((char*)&amp;key, sizeof(char));
+    file.read((char*)&amp;value, sizeof(int));
+    file.read((char*)&amp;valueLenth, sizeof(char));
+    bitset bit(value);
+    string tmp = bit.to_string();
+    tmp = tmp.substr(tmp.size() - valueLenth, valueLenth);
+    CodeMap[key] = tmp;
+}
+int zeroCount = 0;
+file.read((char*)&amp;zeroCount, sizeof(int));
+map&amp;lt;string, char&amp;gt; CodeToChar;
+map&amp;lt;char, string&amp;gt;::iterator it = CodeMap.begin();
+for (; it != CodeMap.end(); it++)
+{
+    CodeToChar[it-&amp;gt;second] = it-&amp;gt;first;
+}
+string codes = &quot;&quot;;
+while (!file.eof())
+{
+    unsigned long x;
+    file.read((char*)&amp;x, sizeof(unsigned long));
+    bitset bit(x);
+    bit.to_string().size();
+    codes.append(bit.to_string());
+}
+string sub_str = codes.substr(codes.size() - 32, 32);
+codes.resize(codes.size() - 32);
+codes.resize(codes.size() - 32);
+codes.append(sub_str.substr(zeroCount, 32 - zeroCount));
+string code;
+for (int i = 0; i &amp;lt; codes.size(); i++)
+{
+    code.append(codes.substr(i, 1));
+    if (CodeToChar.count(code))
+    {
+        char ch = CodeToChar[code];
+        code = &quot;&quot;;
+        out.write((char*)&amp;ch, sizeof ch);
+    }
+}
+file.close();
+out.close();
+</code></pre>
+
+<p>}
+</pre></p>
+</article>
+    <footer class="post-footer">
+      
+      <p class="post-copyright">
+        This post was published <strong>1671</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 imxqd.xyz</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+  </body>
+</html>
